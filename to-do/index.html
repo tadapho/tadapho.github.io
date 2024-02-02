@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <title>To Do Lists</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        #taskList li {
+            margin-top: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #taskList li:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="text-center mb-4">โปรแกรม To Do Lists</h2>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="taskInput" placeholder="สร้างรายการ">
+            <button class="btn btn-primary" onclick="addTask()">Add</button>
+        </div>
+        <ul id="taskList" class="list-group">
+        </ul>
+    </div>
+    <br />
+
+</body>
+
+<script>
+
+    function addTask() {
+        // ดึงข้อมูลจาก input
+        let taskInput = document.getElementById('taskInput');
+        // ดึงข้อมูลของรายการที่มีอยู่แล้ว
+        let taskList = document.getElementById('taskList');
+        // สร้าง element li สำหรับรายการใหม่
+        let li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        li.innerHTML = `
+            <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="taskCheckbox" onchange="completeTask(this)">
+                    <label class="form-check-label" for="taskCheckbox">${taskInput.value}</label>
+                </div>
+                <div>
+                    <button class="btn btn-light btn-sm" onclick="moveTaskUp(this)">↑</button>
+                    <button class="btn btn-light btn-sm" onclick="moveTaskDown(this)">↓</button>
+                    <button class="btn btn-primary btn-sm mr-2" onclick="editTask(this)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="removeTask(this)">Remove</button>
+                </div>
+            `;
+        // เพิ่มรายการใหม่ที่ตำแหน่งแรกของรายการที่มีอยู่แล้ว
+        if (taskList.firstChild) {
+            taskList.insertBefore(li, taskList.firstChild);
+        } else {
+            // ถ้าไม่มีรายการใด ๆ ให้เพิ่มไปที่ตำแหน่งสุดท้าย
+            taskList.appendChild(li);
+        }
+        // ล้างค่าใน input
+        taskInput.value = "";
+    }
+
+    function completeTask(checkbox) {
+        // ดึงข้อมูลของ list item ที่ใกล้ที่สุด (closest) ที่ประกอบไปด้วย checkbox
+        let listItem = checkbox.closest('li');
+        // เปลี่ยนสถานะของ completed class โดยการ toggle ขึ้นหรือลง ขึ้นอยู่กับ checkbox.checked
+        listItem.classList.toggle('completed', checkbox.checked);
+        if (checkbox.checked) {
+            taskList.appendChild(listItem);
+            listItem.style.backgroundColor = '#d0d0d0'; // Change background color to gray
+        } else {
+            listItem.style.backgroundColor = '#fff'; // Reset background color
+        }
+    }
+
+    // Function to edit a task
+    function editTask(button) {
+        let newTask = prompt("Edit :", button.parentNode.previousElementSibling.innerText);
+        if (newTask !== null) {
+            button.parentNode.previousElementSibling.innerText = newTask;
+        }
+    }
+
+    // Function to move a task up
+    function moveTaskUp(button) {
+        let listItem = button.parentNode.parentNode;
+        let previousItem = listItem.previousElementSibling;
+        if (previousItem !== null) {
+            listItem.parentNode.insertBefore(listItem, previousItem);
+        }
+    }
+
+    // Function to move a task down
+    function moveTaskDown(button) {
+        let listItem = button.parentNode.parentNode;
+        let nextItem = listItem.nextElementSibling;
+        if (nextItem !== null) {
+            listItem.parentNode.insertBefore(nextItem, listItem);
+        }
+    }
+
+    function removeTask(button) {
+        button.parentNode.parentNode.remove();
+    }
+
+</script>
+
+</html>
