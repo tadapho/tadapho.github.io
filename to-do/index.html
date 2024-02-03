@@ -37,7 +37,7 @@
         <h2 class="text-center mb-4">โปรแกรม To Do Lists</h2>
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="taskInput" placeholder="สร้างรายการ">
-            <button class="btn btn-primary" onclick="addTask()">Add</button>
+            <button class="btn btn-primary" onclick="addTask()">สร้าง</button>
         </div>
         <ul id="taskList" class="list-group">
         </ul>
@@ -48,6 +48,7 @@
 
 <script>
 
+    // ฟังก์ชันสร้างรายการใหม่
     function addTask() {
         // ดึงข้อมูลจาก input
         let taskInput = document.getElementById('taskInput');
@@ -56,18 +57,18 @@
         // สร้าง element li สำหรับรายการใหม่
         let li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        // สร้าง HTML สำหรับรายการใหม่
         li.innerHTML = `
-            <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="taskCheckbox" onchange="completeTask(this)">
-                    <label class="form-check-label" for="taskCheckbox">${taskInput.value}</label>
-                </div>
-                <div>
-                    <button class="btn btn-light btn-sm" onclick="moveTaskUp(this)">↑</button>
-                    <button class="btn btn-light btn-sm" onclick="moveTaskDown(this)">↓</button>
-                    <button class="btn btn-primary btn-sm mr-2" onclick="editTask(this)">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="removeTask(this)">Remove</button>
-                </div>
-            `;
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" onchange="completeTask(this)">
+            <label class="form-check-label">${taskInput.value}</label>
+        </div>
+        <div>
+            <button class="btn btn-light btn-sm" onclick="moveTaskUp(this)">↑</button>
+            <button class="btn btn-light btn-sm" onclick="moveTaskDown(this)">↓</button>
+            <button class="btn btn-primary btn-sm mr-2" onclick="editTask(this)">แก้ไข</button>
+            <button class="btn btn-danger btn-sm" onclick="removeTask(this)">ลบ</button>
+        </div>`;
         // เพิ่มรายการใหม่ที่ตำแหน่งแรกของรายการที่มีอยู่แล้ว
         if (taskList.firstChild) {
             taskList.insertBefore(li, taskList.firstChild);
@@ -79,47 +80,68 @@
         taskInput.value = "";
     }
 
+    // ฟังก์ชันทำเครื่องหมายเช็ค หรือยกเลิกเช็ค
     function completeTask(checkbox) {
         // ดึงข้อมูลของ list item ที่ใกล้ที่สุด (closest) ที่ประกอบไปด้วย checkbox
         let listItem = checkbox.closest('li');
-        // เปลี่ยนสถานะของ completed class โดยการ toggle ขึ้นหรือลง ขึ้นอยู่กับ checkbox.checked
+        // เปลี่ยนสถานะของ completed class โดยการ toggle ขึ้นอยู่กับ checkbox.checked
         listItem.classList.toggle('completed', checkbox.checked);
+        // ถ้า checkbox.checked เป็น true (ถูกทำเครื่องหมาย), เลื่อน list item ไปที่ส่วนท้ายของรายการ
+        // และเปลี่ยนสีพื้นหลังเป็นสีเทา
         if (checkbox.checked) {
             taskList.appendChild(listItem);
-            listItem.style.backgroundColor = '#d0d0d0'; // Change background color to gray
+            listItem.style.backgroundColor = '#d0d0d0';
         } else {
-            listItem.style.backgroundColor = '#fff'; // Reset background color
+            // ถ้า checkbox.checked เป็น false (ถอดเครื่องหมาย), เปลี่ยนสีพื้นหลังกลับเป็นสีขาว
+            listItem.style.backgroundColor = '#fff';
         }
     }
 
-    // Function to edit a task
+    // ฟังก์ชันแก้ไขรายการ
     function editTask(button) {
-        let newTask = prompt("Edit :", button.parentNode.previousElementSibling.innerText);
-        if (newTask !== null) {
-            button.parentNode.previousElementSibling.innerText = newTask;
-        }
+        // ดึงข้อมูล list item ที่เป็น parent
+        let listItem = button.parentNode.parentNode;
+        // ดึงข้อมูลของ checkbox และ label ภายใน list item
+        let checkbox = listItem.querySelector('.form-check-input');
+        let label = listItem.querySelector('.form-check-label');
+        // แสดง prompt ให้ผู้ใช้กรอกรายละเอียดงานใหม่
+        let newTask = prompt("แก้ไขงาน:", label.innerText);
+        // อัปเดตข้อความของ label ด้วยรายละเอียดงานใหม่
+        label.innerText = newTask;
     }
 
-    // Function to move a task up
+    // ฟังก์ชันย้ายขึ้น
     function moveTaskUp(button) {
+        // ดึงข้อมูลของ list item ที่ปัจจุบัน
         let listItem = button.parentNode.parentNode;
+        // ดึงข้อมูลของ list item ก่อนหน้า
         let previousItem = listItem.previousElementSibling;
+        // ตรวจสอบว่ามี list item ก่อนหน้าหรือไม่
         if (previousItem !== null) {
+            // ย้าย list item ปัจจุบันไปข้างหน้าของ list item ก่อนหน้า
             listItem.parentNode.insertBefore(listItem, previousItem);
         }
     }
 
-    // Function to move a task down
+    // ฟังก์ชันย้ายลง
     function moveTaskDown(button) {
+        // ดึงข้อมูลของ list item ที่ปัจจุบัน
         let listItem = button.parentNode.parentNode;
+        // ดึงข้อมูลของ list item ถัดไป
         let nextItem = listItem.nextElementSibling;
+        // ตรวจสอบว่ามี list item ถัดไปหรือไม่
         if (nextItem !== null) {
+            // เพิ่ม list item ถัดไปเข้าไปก่อน list item ปัจจุบัน
             listItem.parentNode.insertBefore(nextItem, listItem);
         }
     }
 
+    // ฟังก์ชันลบ
     function removeTask(button) {
-        button.parentNode.parentNode.remove();
+        // ดึงข้อมูลของ list item ที่ปัจจุบัน
+        let listItem = button.parentNode.parentNode;
+        // ลบ list item ที่ดึงข้อมูลมา
+        listItem.remove();
     }
 
 </script>
