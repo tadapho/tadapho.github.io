@@ -1,0 +1,82 @@
+body {
+  width: 100%;
+  background-color: #e2e4e4;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* background-image: url("../images/bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center; */
+}
+
+.glassmorphism-light,
+.glassmorphism-dark {
+  border: 1px solid rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.4);
+  z-index: 2;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.custom-navbar {
+  background-color: #1c1b27;
+}
+
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.card {
+  cursor: alias;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+footer {
+  background-color: #1c1b27;
+  color: white;
+  padding: 40px 0;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffc107;
+}
