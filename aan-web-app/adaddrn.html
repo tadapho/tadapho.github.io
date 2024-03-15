@@ -1,0 +1,450 @@
+<!-- Admin Add Runner -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rems</title>
+    <style>
+        /* Reset some default styles */
+        body,
+        h1,
+        h2,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            /* background-color: rgb(88, 117, 188); */
+            background-color: #fff;
+            color: rgb(88, 117, 188);
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 10px;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" </head>
+
+<body>
+    <header class="d-flex justify-content-between">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="assets/image/brandner.PNG" alt="" width="190" height="70">
+    
+            <div class=" w-100 m-auto text-center">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a href="admnorg.html" class="nav-link">Organizer</a>
+                    </li>
+                    <li class="nav-item"><a href="admyevent.html" class="nav-link active" aria-current="page">My Event</a>
+                    </li>
+            </div>
+            <div class="badge bg-danger rounded-pill">
+                <a href="index.html">
+                    <button class="btn btn-danger rounded-pill px-3" type="button">ออกจากระบบ</button>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="col-md-7 col-lg-10">
+            <hr class="my-4">
+            <h4 class="mb-3">ลงทะเบียนกิจกรรม</h4>
+            <form class="needs-validation" novalidate="">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label">ชื่อ</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="ระบุชื่อ" value=""
+                            required="">
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">นามสกุล</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="ระบุนามสกุล" value=""
+                            required="">
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="gender" class="form-label">เพศ</label>
+                        <select class="form-select" id="gender" required="">
+                            <option value="">เลือก...</option>
+                            <option>ชาย</option>
+                            <option>หญิง</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-12">
+                        <label for="birthdate" class="form-label">วันเกิด</label>
+                        <div class="input-group has-validation">
+                            <!-- Day -->
+                            <select class="form-select birthdate-select" id="birthdate-day" required="">
+                                <option value="">วันที่...</option>
+                                <!-- Add day options here -->
+                            </select>
+
+                            <!-- Month -->
+                            <select class="form-select birthdate-select" id="birthdate-month" required="">
+                                <option value="">เดือน...</option>
+                                <!-- Add month options here -->
+                            </select>
+
+                            <!-- Year -->
+                            <select class="form-select birthdate-select" id="birthdate-year" required="">
+                                <option value="">2023</option>
+                                <!-- Add year options here -->
+                            </select>
+
+                            <div class="invalid-feedback">
+                                Please select a valid birthdate.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="phoneNumber" class="form-label">เบอร์โทรศัพท์</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <input type="tel" class="form-control phone-number-input" id="phoneNumber"
+                                placeholder="ระบุเบอร์โทรศัพท์" required="">
+                            <div class="invalid-feedback">
+                                Please enter a valid phone number.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="col-12">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">@</span>
+                        <input type="text" class="form-control" id="username" placeholder="Username" required="">
+                        <div class="invalid-feedback">
+                            Your username is required.
+                        </div>
+                    </div>
+                </div> -->
+
+                    <div class="col-12">
+                        <label for="email" class="form-label">อีเมล</label>
+                        <input type="email" class="form-control" id="email" placeholder="ระบุอีเมล">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address for shipping updates.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="idCardNumber" class="form-label">เลขประจำตัวประชาชน</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            <input type="text" class="form-control id-card-number-input" id="idCardNumber"
+                                placeholder="ระบุเลขประจำตัวประชาชน" required="">
+                            <div class="invalid-feedback">
+                                Please enter a valid ID card number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="bloodType" class="form-label">หมู่เลือด</label>
+                        <div class="input-group has-validation">
+                            <select class="form-select blood-type-select" id="bloodType" required="">
+                                <option value="">เลือก</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid blood type.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="congenitalDisease" class="form-label">ปัญหาสุขภาพหรือโรคประจำตัว</label>
+                        <div class="input-group has-validation">
+                            <input type="text" class="form-control congenital-disease-input" id="congenitalDisease"
+                                placeholder="ระบุรายละเอียด...">
+                            <div class="invalid-feedback">
+                                Please provide information about any congenital disease.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h3>กรณีฉุกเฉิน</h3>
+
+                    <div class="col-sm-6">
+                        <label for="emergencyContactFirstName" class="form-label">ชื่อผู้ติดต่อฉุกเฉิน</label>
+                        <input type="text" class="form-control" id="emergencyContactFirstName" placeholder="ชื่อ"
+                            value="" required="">
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="emergencyContactLastName" class="form-label">นามสกุลผู้ติดต่อฉุกเฉิน</label>
+                        <input type="text" class="form-control" id="emergencyContactLastName" placeholder="นามสกุล"
+                            value="" required="">
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="emergencyPhoneNumber" class="form-label">เบอร์โทรศัพท์ผู้ติดต่อฉุกเฉิน</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <input type="tel" class="form-control phone-number-input" id="emergencyPhoneNumber"
+                                placeholder="เบอร์โทรศัพท์" required="">
+                            <div class="invalid-feedback">
+                                Please enter a valid phone number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="emergencyContactRelationship" class="form-label">ความสัมพันธ์</label>
+                        <div class="input-group has-validation">
+                            <select class="form-select emergency-contact-relationship-select"
+                                id="emergencyContactRelationship" required="">
+                                <option value="">เลือก</option>
+                                <option value="family">Family</option>
+                                <option value="friend">Friend</option>
+                                <option value="colleague">Colleague</option>
+                                <!-- Add more relationship options as needed -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select the relationship of the emergency contact.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h3>กรอกข้อมูลกิจกรรม</h3>
+
+                    <div class="col-12">
+                        <label for="distance" class="form-label">เลือกระยะทาง</label>
+                        <div class="input-group has-validation">
+                            <select class="form-select distance-select" id="distance" required="">
+                                <option value="">เลือก</option>
+                                <option value="1">1-9 กิโลเมตร</option>
+                                <option value="5">10-20 กิโลเมตร</option>
+                                <option value="10">21-40 กิโลเมตร</option>
+                                <option value="20">41 กิโลเมตรขึ้นไป</option>
+                                <!-- Add more distance options as needed -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid distance.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="picture" class="form-label">เสื้อ</label>
+                        <div class="picture-container">
+                            <img src="assets/image/T-shirt-3-21km-05-1-scaled.jpg" alt="Picture"
+                                class="show-picture custom-image" id="picture">
+                            <img src="assets/image/T-shirt-3-21km-04-scaled.jpg" alt="Picture"
+                                class="show-picture custom-image" id="picture">
+                            <img src="assets/image/T-shirt-3-21km-03-scaled.jpg" alt="Picture"
+                                class="show-picture custom-image" id="picture">
+                            <img src="assets/image/T-shirt-21km-finisher-12-new-12-scaled.jpg" alt="Picture"
+                                class="show-picture custom-image" id="picture">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="size" class="form-label">เลือกขนาดเสื้อ</label>
+                        <div class="input-group has-validation">
+                            <select class="form-select size-select" id="size" required="">
+                                <option value="">เลือก</option>
+                                <option value="extra-small">XS</option>
+                                <option value="small">S</option>
+                                <option value="medium">M</option>
+                                <option value="large">L</option>
+                                <option value="extra-large">XL</option>
+                                <option value="2extra-large">2XL</option>
+                                <option value="3extra-large">3XL</option>
+                                <!-- Add more size options as needed -->
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid size.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h4>การจัดส่ง</h4>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="no-delivery">
+                        <label class="form-check-label" for="same-address">รับเองที่จุดลงทะเบียน</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="delivery">
+                        <label class="form-check-label" for="save-info">จัดส่ง</label>
+                    </div>
+
+
+                    <div class="col-12">
+                        <label for="address" class="form-label">ที่อยู่</label>
+                        <input type="text" class="form-control" id="address" placeholder="ระบุที่อยู่" required="">
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="sub-district" class="form-label">ตำบล/แขวง</label>
+                        <select class="form-select" id="sub-district" required="">
+                            <option value="">เลือก...</option>
+                            <option></option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid sub district.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="district" class="form-label">อำเภอ/เขต</label>
+                        <select class="form-select" id="district" required="">
+                            <option value="">เลือก...</option>
+                            <option>กรุงเทพมหานครฯ</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid district.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="province" class="form-label">จังหวัด</label>
+                        <select class="form-select" id="province" required="">
+                            <option value="">เลือก...</option>
+                            <option>กรุงเทพมหานครฯ</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid province.
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="country" class="form-label">ประเทศ</label>
+                        <select class="form-select" id="country" required="">
+                            <option value="">เลือก...</option>
+                            <option>ไทย</option>
+                            <option>ลาว</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="zip" class="form-label">รหัสไปรษณีย์</label>
+                        <input type="text" class="form-control" id="zip" placeholder="ระบุรหัสไปรษณีย์" required="">
+                        <div class="invalid-feedback">
+                            Zip code required.
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h4 class="mb-3">ชำระเงิน</h4>
+
+                <div class="col-12">
+                    <label for="expensesSummary" class="form-label">สรุปค่าใช้จ่าย</label>
+                    <div class="expenses-summary">
+                        <p>ค่าลงทะเบียน: 500 บาท</p>
+                        <p>ค่าจัดส่ง: 50 บาท</p>
+                        <p>รวม: 550 บาท</p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="picture" class="form-label">ช่องทางการชำระเงิน</label>
+                    <div class="picture-container">
+                        <img src="assets/image/qrcode.jpg" alt="Picture" class="show-picture custom-image" id="picture">
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="proofOfPayment" class="form-label">แจ้งการชำระเงิน</label>
+                    <div class="input-group has-validation">
+                        <input type="file" class="form-control proof-of-payment-input" id="proofOfPayment"
+                            accept=".pdf, .jpg, .jpeg, .png" required="">
+                        <div class="invalid-feedback">
+                            Please upload a valid proof of payment file (PDF, JPG, JPEG, or PNG).
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <a href="admnrn.html">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">ลงทะเบียน</button>
+                </a>
+
+
+
+                <hr class="my-4">
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

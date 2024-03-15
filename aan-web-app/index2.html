@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rems</title>
+    <style>
+        /* Reset some default styles */
+        body,
+        h1,
+        h2,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            /* background-color: rgb(88, 117, 188); */
+            background-color: #fff; 
+            color: rgb(88, 117, 188);
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 10px;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" >
+</head>
+
+<body>
+    <header class="d-flex justify-content-between">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="assets/image/brandner.PNG" alt="" width="190" height="70">
+            <h1>RUNNING EVENT MANAGEMENT SYSTEM FOR RMUTT</h1>
+            <!-- <div class=" w-100 m-auto text-center">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                </ul>
+            </div>  -->
+
+
+            <!-- User Dropdown -->
+            <!-- <div class="dropdown">
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <ul class="dropdown-menu text-small shadow dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="login.html">Sign in</a></li>
+                </ul>
+            </div>  -->
+        </div>
+        
+    </header>
+    
+    <!-- <div class="container">
+        <main class="form-signin w-100 m-auto text-center">
+            <div>
+                <img class="mb-8" src="assets/image/icon.PNG" alt="" width="250" height="250">
+
+                <div class="d-flex justify-content-between">
+                    <a href="runnerlogin.html">
+                        <button type="button" class="btn btn-primary">Runner</button>
+                    </a>
+                    <a href="orglogin.html">
+                        <button type="button" class="btn btn-primary">Organizer</button>
+                    </a>
+                </div>
+
+                
+            </div>
+        </main>
+        
+    </div> -->
+    <div class="container my-5">
+        <div class="p-5 text-center bg-body-tertiary rounded-3">
+            <img class="mb-8" src="assets/image/icon.PNG" alt="" width="250" height="250">
+            <h3 class="text-body-emphasis">RUNNING EVENT MANAGEMENT SYSTEM FOR RMUTT</h3>
+            <p class="col-lg-8 mx-auto fs-5 text-muted">
+                ระบบจัดการกิจกรรมวิ่ง มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
+            <div class="d-inline-flex gap-2 mb-5">
+                <a href="runnerlogin.html">
+                    <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+                        Runner
+                    </button>
+                </a>
+                <a href="orglogin.html">
+                    <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+                        Organizer
+                    </button>
+                </a>
+                <a href="addminlogin.html">
+                    <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+                        Admin
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="text-start my-3">
+                        <h1 class="h3 mb-3 fw-normal">เข้าสู่ระบบ</h1>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Email address</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+
+                    <div class="form-check text-start my-3">
+                        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">Remember me</label>
+                    </div> -->
+
+                    <!-- <a href="runner_homescreen.html"><button class="btn btn-primary w-100 py-2" type="submit">Sign
+                            in</button> </a>
+                    <p class="text-start my-3">ยังไม่มีบัญชีใช่หรือไม่ <a href="runnerregister.html">คลิก</a>เพื่อลงทะเบียน
+                    </p>
+                    <p class="text-start my-3">เข้าสู่ระบบผู้จัดงาน <a href="orglogin.html">คลิก</a>เพื่อเข้าสู่ระบบ</p> -->
+                
+    <!-- <header
+            <div class="form-signin w-100 m-auto text-center" 
+                <a href="runnerlogin.html">
+                    <button type="button" class="btn btn-primary">Runner</button>
+                </a>
+                <a href="orglogin.html">
+                    <button type="button" class="btn btn-primary">Organizer</button>
+                </a>
+            </div>
+    </header> -->
+
+    <!-- <header>
+        <h1>RUNNING EVENT MANAGEMENT SYSTEM FOR RMUTT</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <main>
+        <h2>Welcome to Your Website</h2>
+        <p>This is a simple template to help you get started with your website.</p>
+    </main>
+
+    <footer>
+        &copy; 2024 Your Website Name. All rights reserved.
+    </footer> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
