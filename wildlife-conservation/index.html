@@ -19,7 +19,7 @@
         crossorigin="anonymous"></script>
 
     <!-- sweetalert2 -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css" type="text/css" />
@@ -414,24 +414,28 @@
 </body>
 
 <script>
+    // เลือกทุกองค์ประกอบที่มีคลาสชื่อว่า 'content'
     const cards = document.querySelectorAll('.content');
+    // วนลูปผ่านทุกๆ องค์ประกอบและเพิ่มการฟังก์ชัน 'click' เมื่อมีการคลิก
     cards.forEach(function (card) {
         card.addEventListener('click', function () {
+            // เรียกข้อมูลที่ตั้งค่าไว้ในแต่ละองค์ประกอบด้วย 'data-content1'
             const content = card.getAttribute('data-content1');
+            // แสดงหน้าต่างแจ้งเตือนข้อมูลโดยใช้ SweetAlert
             Swal.fire({
-                confirmButtonText: 'Close',
-                showCloseButton: true,
-                title: `${card.getAttribute('data-name')}`,
+                confirmButtonText: 'Close', // ปุ่มยืนยันชื่อ 'Close'
+                showCloseButton: true, // แสดงปุ่มปิด
+                title: `${card.getAttribute('data-name')}`, // แสดงชื่อตามที่กำหนดไว้ใน 'data-name'
                 html: `
                     ${card.getAttribute('data-content1')}<br /><br />
                     ${card.getAttribute('data-content2')}<br /><br />
                     ${card.getAttribute('data-content3')}<br /><br />
                     ${card.getAttribute('data-content4')}<br /><br />
-                    ${card.getAttribute('data-content5')}<br /><br />
-                `
+                    ${card.getAttribute('data-content5')}<br /><br />`
             });
         });
     });
 </script>
+
 
 </html>
