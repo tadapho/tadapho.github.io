@@ -2,10 +2,9 @@
 require_once "src/Controllers/ConnectController.php";
 
 $employee = array();
-$stmt = $PDOconn->prepare("SELECT Employee.*, Department_Manager.*, Department.*
+$stmt = $PDOconn->prepare("SELECT Employee.*, Department.Dept_name
                             FROM Employee
-                            LEFT JOIN Department_Manager ON Employee.Emp_manager = Department_Manager.Emp_manager
-                            LEFT JOIN Department ON Department_Manager.Dept_ID = Department.Dept_ID
+                            LEFT JOIN Department ON Employee.Dept_ID = Department.Dept_ID
                             ORDER BY Employee.Emp_ID ASC");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -25,18 +24,18 @@ if ($result) {
     }
 }
 
-// $department_manager = array();
-// $stmt = $PDOconn->prepare("SELECT Department_Manager.*, Department.*
-//                             FROM Department_Manager
-//                             LEFT JOIN Department ON Department_Manager.Dept_ID = Department.Dept_ID
-//                             ORDER BY Department_Manager.Emp_manager ASC");
-// $stmt->execute();
-// $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-// if ($result) {
-//     foreach ($result as $row) {
-//         $department_manager[] = $row;
-//     }
-// }
+$department_manager = array();
+$stmt = $PDOconn->prepare("SELECT Department_Manager.*, Department.*
+                            FROM Department_Manager
+                            LEFT JOIN Department ON Department_Manager.Dept_ID = Department.Dept_ID
+                            ORDER BY Department_Manager.Emp_manager ASC");
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+if ($result) {
+    foreach ($result as $row) {
+        $department_manager[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -131,15 +130,14 @@ if ($result) {
                     <td>
                         <input class="form-control emp-zipcode-input" maxlength="5" />
                     </td>
-                    <!-- <td>
+                    <td>
                         <select class="form-select emp-manager-select">
                             <option value=""></option>
                             <?php foreach ($department_manager as $deptm) { ?>
-                                <option value="<?= $deptm->Emp_manager ?>"><?= $deptm->Emp_manager . " : " . $deptm->Dept_name; ?></option>
+                                <option value="<?= $deptm->Emp_manager ?>"><?= $deptm->Emp_manager  ?></option>
                             <?php } ?>
                         </select>
-                    </td> -->
-                    <td></td>
+                    </td>
                     <td>
                         <select class="form-select dep-id-select">
                             <option value=""></option>
@@ -197,7 +195,7 @@ if ($result) {
                             <span><?= $emp->Emp_zipcode ?></span>
                             <input class="form-control emp-zipcode-input" maxlength="5" value="<?= $emp->Emp_zipcode ?>" style="display: none;" />
                         </td>
-                        <!-- <td>
+                        <td>
                             <span><?= $emp->Emp_manager  ?>
                             </span>
                             <select class="form-select emp-manager-select" style="display: none;">
@@ -208,8 +206,7 @@ if ($result) {
                                     </option>
                                 <?php } ?>
                             </select>
-                        </td> -->
-                        <td><?= $emp->Emp_manager  ?></td>
+                        </td>
                         <td>
                             <span><?= $emp->Dept_name ?></span>
                             <select class="form-select dep-id-select" style="display: none;">
@@ -270,7 +267,7 @@ if ($result) {
             const empCityInput = tr.querySelector('.emp-city-input').value;
             const empStreetInput = tr.querySelector('.emp-street-input').value;
             const empZipcodeInput = tr.querySelector('.emp-zipcode-input').value;
-            // const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+            const empManagerSelect = tr.querySelector('.emp-manager-select').value;
             const depIpSelect = tr.querySelector('.dep-id-select').value;
             //dep-id-select
             fetch('api/employee/insert.php', {
@@ -289,7 +286,7 @@ if ($result) {
                         empCityInput,
                         empStreetInput,
                         empZipcodeInput,
-                        // empManagerSelect
+                        empManagerSelect,
                         depIpSelect
                     })
                 })
@@ -372,7 +369,7 @@ if ($result) {
                 const empCityInput = tr.querySelector('.emp-city-input').value;
                 const empStreetInput = tr.querySelector('.emp-street-input').value;
                 const empZipcodeInput = tr.querySelector('.emp-zipcode-input').value;
-                // const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+                const empManagerSelect = tr.querySelector('.emp-manager-select').value;
                 const depIpSelect = tr.querySelector('.dep-id-select').value;
                 fetch('api/employee/update.php', {
                         method: 'POST',
@@ -391,7 +388,7 @@ if ($result) {
                             empCityInput,
                             empStreetInput,
                             empZipcodeInput,
-                            // empManagerSelect
+                            empManagerSelect,
                             depIpSelect
                         })
                     })

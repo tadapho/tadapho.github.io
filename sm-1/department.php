@@ -2,7 +2,11 @@
 require_once "src/Controllers/ConnectController.php";
 
 $department = array();
-$stmt = $PDOconn->prepare("SELECT * FROM Department ORDER BY Dept_ID ASC");
+// $stmt = $PDOconn->prepare("SELECT * FROM Department ORDER BY Dept_ID ASC");
+$stmt = $PDOconn->prepare("SELECT Department.*, Department_Manager.Emp_manager
+                            FROM Department
+                            LEFT JOIN Department_Manager ON Department.Dept_ID = Department_Manager.Dept_ID");
+
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 if ($result) {
@@ -59,6 +63,7 @@ if ($result) {
             <thead>
                 <tr class="table-primary">
                     <th class="col-4" scope="col">รหัสฝ่าย</th>
+                    <th class="col-4" scope="col">รหัสผู้จัดการ</th>
                     <th class="col-4" scope="col">ชื่อฝ่าย</th>
                     <th class="col-2" scope="col"></th>
                 </tr>
@@ -67,6 +72,9 @@ if ($result) {
                 <tr class="insert-form" style="display: none;">
                     <td>
                         <input class="form-control dept-id-input" maxlength="3" required />
+                    </td>
+                    <td>
+                        <input class="form-control emp-manager-input" maxlength="4" required />
                     </td>
                     <td>
                         <input class="form-control dept-name-input" maxlength="22" required />
@@ -81,6 +89,10 @@ if ($result) {
                         <td>
                             <span class="dept-id"><?= $dept->Dept_ID ?></span>
                             <input class="form-control dept-id-input" maxlength="3" value="<?= $dept->Dept_ID ?>" style="display: none;" required />
+                        </td>
+                        <td>
+                            <span><?= $dept->Emp_manager ?></span>
+                            <input class="form-control emp-manager-input" maxlength="4" value="<?= $dept->Emp_manager ?>" style="display: none;" required/>
                         </td>
                         <td>
                             <span class="dept-name"><?= $dept->Dept_name ?></span>
@@ -127,6 +139,7 @@ if ($result) {
             console.log("Validation passed ...");
             const deptIdInput = tr.querySelector('.dept-id-input').value;
             const deptNameInput = tr.querySelector('.dept-name-input').value;
+            const empManagerInput = tr.querySelector('.emp-manager-input').value;
             fetch('api/department/insert.php', {
                     method: 'POST',
                     headers: {
@@ -134,7 +147,8 @@ if ($result) {
                     },
                     body: JSON.stringify({
                         deptIdInput,
-                        deptNameInput
+                        deptNameInput,
+                        empManagerInput
                     })
                 })
                 .then(response => {
@@ -239,22 +253,26 @@ if ($result) {
     editButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             const tr = this.closest('tr');
-            const deptId = tr.querySelector('.dept-id');
-            const deptIdInput = tr.querySelector('.dept-id-input');
-            const deptName = tr.querySelector('.dept-name');
-            const deptNameInput = tr.querySelector('.dept-name-input');
             const editBtn = tr.querySelector('.edit-btn');
             const saveBtn = tr.querySelector('.save-btn');
             const delBtn = tr.querySelector('.del-btn');
             const cancelBtn = tr.querySelector('.cancel-btn');
-            deptId.style.display = 'none';
-            deptName.style.display = 'none';
             editBtn.style.display = 'none';
             delBtn.style.display = 'none';
-            deptIdInput.style.display = 'inline';
-            deptNameInput.style.display = 'inline';
             saveBtn.style.display = 'inline';
             cancelBtn.style.display = 'inline';
+            const spans = tr.querySelectorAll('span');
+            spans.forEach(function(span) {
+                span.style.display = 'none';
+            });
+            const inputs = tr.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.style.display = 'inline';
+            });
+            const selects = tr.querySelectorAll('select');
+            selects.forEach(function(select) {
+                select.style.display = 'inline';
+            });
             // Attach event listener to save button
             saveBtn.addEventListener('click', function() {
                 // Validate the form controls
@@ -264,6 +282,9 @@ if ($result) {
                 }
                 // If validation passes, proceed with api
                 console.log("Validation passed ...");
+                const deptIdInput = tr.querySelector('.dept-id-input').value;
+                const deptNameInput = tr.querySelector('.dept-name-input').value;
+                const empManagerInput = tr.querySelector('.emp-manager-input').value;
                 fetch('api/department/update.php', {
                         method: 'POST',
                         headers: {
@@ -271,8 +292,9 @@ if ($result) {
                         },
                         body: JSON.stringify({
                             ID: this.value,
-                            deptIdInput: deptIdInput.value,
-                            deptNameInput: deptNameInput.value
+                            deptIdInput,
+                            deptNameInput,
+                            empManagerInput
                         })
                     })
                     .then(response => {
@@ -310,12 +332,17 @@ if ($result) {
             });
             // Attach event listener to cancel button
             cancelBtn.addEventListener('click', function() {
-                deptId.style.display = 'inline';
-                deptName.style.display = 'inline';
+                spans.forEach(function(span) {
+                    span.style.display = 'inline';
+                });
+                inputs.forEach(function(input) {
+                    input.style.display = 'none';
+                });
+                selects.forEach(function(select) {
+                    select.style.display = 'none';
+                });
                 editBtn.style.display = 'inline';
                 delBtn.style.display = 'inline';
-                deptIdInput.style.display = 'none';
-                deptNameInput.style.display = 'none';
                 saveBtn.style.display = 'none';
                 cancelBtn.style.display = 'none';
             });

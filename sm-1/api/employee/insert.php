@@ -31,10 +31,10 @@ $Emp_HNo = $data['empHnoInput'];
 $Emp_city = $data['empCityInput'];
 $Emp_street = $data['empStreetInput'];
 $Emp_zipcode = $data['empZipcodeInput'];
-// $Emp_manager = $data['empManagerSelect'];
-// if ($Emp_manager === '') {
-//     $Emp_manager = null;
-// }
+$Emp_manager = $data['empManagerSelect'];
+if ($Emp_manager === '') {
+    $Emp_manager = null;
+}
 $Dept_ID = $data['depIpSelect'];
 if ($Dept_ID === '') {
     $Dept_ID = null;
@@ -51,14 +51,14 @@ try {
         exit;
     } else {
         // Insert new data into Employee table
-        $stmt = $PDOconn->prepare("INSERT INTO Department_Manager (Emp_manager, Dept_ID) 
-                                    VALUES (:Emp_manager, :Dept_ID)");
-        $stmt->bindParam(':Emp_manager', $Emp_ID);
-        $stmt->bindParam(':Dept_ID', $Dept_ID);
-        $stmt->execute();
+        // $stmt = $PDOconn->prepare("INSERT INTO Department_Manager (Emp_manager, Dept_ID) 
+        //                             VALUES (:Emp_manager, :Dept_ID)");
+        // $stmt->bindParam(':Emp_manager', $Emp_ID);
+        // $stmt->bindParam(':Dept_ID', $Dept_ID);
+        // $stmt->execute();
         // Insert new data into Employee table
-        $stmt = $PDOconn->prepare("INSERT INTO Employee (Emp_ID, Emp_Fname, Emp_Lname, Emp_Tel, Emp_role, Emp_salary, Emp_HNo, Emp_city, Emp_street, Emp_zipcode, Emp_manager) 
-                                    VALUES (:Emp_ID, :Emp_Fname, :Emp_Lname, :Emp_Tel, :Emp_role, :Emp_salary, :Emp_HNo, :Emp_city, :Emp_street, :Emp_zipcode, :Emp_manager)");
+        $stmt = $PDOconn->prepare("INSERT INTO Employee (Emp_ID, Emp_Fname, Emp_Lname, Emp_Tel, Emp_role, Emp_salary, Emp_HNo, Emp_city, Emp_street, Emp_zipcode, Dept_ID, Emp_manager) 
+                                    VALUES (:Emp_ID, :Emp_Fname, :Emp_Lname, :Emp_Tel, :Emp_role, :Emp_salary, :Emp_HNo, :Emp_city, :Emp_street, :Emp_zipcode, :Dept_ID, :Emp_manager)");
         $stmt->bindParam(':Emp_ID', $Emp_ID);
         $stmt->bindParam(':Emp_Fname', $Emp_Fname);
         $stmt->bindParam(':Emp_Lname', $Emp_Lname);
@@ -69,7 +69,8 @@ try {
         $stmt->bindParam(':Emp_city', $Emp_city);
         $stmt->bindParam(':Emp_street', $Emp_street);
         $stmt->bindParam(':Emp_zipcode', $Emp_zipcode);
-        $stmt->bindParam(':Emp_manager', $Emp_ID);
+        $stmt->bindParam(':Dept_ID', $Dept_ID);
+        $stmt->bindParam(':Emp_manager', $Emp_manager);
         $stmt->execute();
     }
     http_response_code(200);

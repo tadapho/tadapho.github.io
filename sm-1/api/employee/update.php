@@ -32,22 +32,22 @@ $Emp_HNo = $data['empHnoInput'];
 $Emp_city = $data['empCityInput'];
 $Emp_street = $data['empStreetInput'];
 $Emp_zipcode = $data['empZipcodeInput'];
-// $Emp_manager = $data['empManagerSelect'];
-// if ($Emp_manager === '') {
-//     $Emp_manager = null;
-// }
+$Emp_manager = $data['empManagerSelect'];
+if ($Emp_manager === '') {
+    $Emp_manager = null;
+}
 $Dept_ID = $data['depIpSelect'];
 if ($Dept_ID === '') {
     $Dept_ID = null;
 }
 
 try {
-    $stmt = $PDOconn->prepare("UPDATE Department_Manager 
-                                SET Dept_ID = :Dept_ID
-                                WHERE Emp_manager = :ID");
-    $stmt->bindParam(':ID', $ID);
-    $stmt->bindParam(':Dept_ID', $Dept_ID);
-    $stmt->execute();
+    // $stmt = $PDOconn->prepare("UPDATE Department_Manager 
+    //                             SET Dept_ID = :Dept_ID
+    //                             WHERE Emp_manager = :ID");
+    // $stmt->bindParam(':ID', $ID);
+    // $stmt->bindParam(':Dept_ID', $Dept_ID);
+    // $stmt->execute();
 
     $stmt = $PDOconn->prepare("UPDATE Employee 
                                 SET Emp_ID = :Emp_ID, 
@@ -60,7 +60,8 @@ try {
                                     Emp_city = :Emp_city, 
                                     Emp_street = :Emp_street, 
                                     Emp_zipcode = :Emp_zipcode, 
-                                    Emp_manager = :Emp_manager 
+                                    Dept_ID = :Dept_ID ,
+                                    Emp_manager = :Emp_manager
                                 WHERE Emp_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->bindParam(':Emp_ID', $Emp_ID);
@@ -73,6 +74,7 @@ try {
     $stmt->bindParam(':Emp_city', $Emp_city);
     $stmt->bindParam(':Emp_street', $Emp_street);
     $stmt->bindParam(':Emp_zipcode', $Emp_zipcode);
+    $stmt->bindParam(':Dept_ID', $Dept_ID);
     $stmt->bindParam(':Emp_manager', $Emp_manager);
     $stmt->execute();
     http_response_code(200);

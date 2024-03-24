@@ -46,7 +46,7 @@ if ($result) {
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="department.php">Department</a>
-                    <!-- <a class="nav-link active" aria-current="page" href="#">Department-Management</a> -->
+                    <a class="nav-link active" aria-current="page" href="#">Department-Management</a>
                     <a class="nav-link" href="employee.php">Employee</a>
                     <a class="nav-link" href="quotation.php">Quotation</a>
                     <a class="nav-link" href="customer.php">Customer</a>

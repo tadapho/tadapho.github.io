@@ -31,6 +31,7 @@ if (!isset($data['deptNameInput']) && empty($data['deptNameInput'])) {
 $ID = $data['ID'];
 $Dept_ID = $data['deptIdInput'];
 $Dept_name = $data['deptNameInput'];
+$Emp_manager = $data['empManagerInput'];
 
 try {
     // Check if the Dept_ID already exists
@@ -43,10 +44,22 @@ try {
     //     echo json_encode(array("message" => "Dept_ID already exists."));
     //     exit;
     // } else {
+
+    // $stmt = $PDOconn->prepare("INSERT INTO Department_Manager (Dept_ID, Emp_manager) VALUES (:Dept_ID, :Emp_manager)");
+    // $stmt->bindParam(':Dept_ID', $Dept_ID);
+    // $stmt->bindParam(':Emp_manager', $Emp_manager);
+    // $stmt->execute();
+    // $PDOconn->commit();
     // Update data
     $stmt = $PDOconn->prepare("UPDATE Department SET Dept_ID = :Dept_ID, Dept_name = :Dept_name WHERE Dept_ID = :ID");
     $stmt->bindParam(':Dept_ID', $Dept_ID);
     $stmt->bindParam(':Dept_name', $Dept_name);
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+    // Update data
+    $stmt = $PDOconn->prepare("UPDATE Department_Manager SET Dept_ID = :Dept_ID, Emp_manager = :Emp_manager WHERE Dept_ID = :ID");
+    $stmt->bindParam(':Dept_ID', $Dept_ID);
+    $stmt->bindParam(':Emp_manager', $Emp_manager);
     $stmt->bindParam(':ID', $ID);
     $stmt->execute();
     // }
