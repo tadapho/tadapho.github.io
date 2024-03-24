@@ -9,57 +9,71 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Check data
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
-if (!isset($data)) {
-    http_response_code(422);
-    echo json_encode(array("error" => "Input is required."));
-    exit;
+$ID = $_POST['ID'];
+$Bill_ID = $_POST['biIdInput'];
+
+// Fetch the current record from the database
+// $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :bill_id");
+// $stmt->bindParam(':Bill_ID', $ID);
+// $stmt->execute();
+// $bill = $stmt->fetch(PDO::FETCH_ASSOC);
+if (isset($_FILES['biSlip50Input']) && $_FILES['biSlip50Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_50 = file_get_contents($_FILES['biSlip50Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_50 = null;
+    $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+    $bill = $stmt->fetch(PDO::FETCH_ASSOC);
+    $Slip_50 = $bill['Slip_50']; // Using array notation
+}
+if (isset($_FILES['biSlip30Input']) && $_FILES['biSlip30Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_30 = file_get_contents($_FILES['biSlip30Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_30 = null;
+    $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+    $bill = $stmt->fetch(PDO::FETCH_ASSOC);
+    $Slip_30 = $bill['Slip_30']; // Using array notation
+}
+if (isset($_FILES['biSlip20Input']) && $_FILES['biSlip20Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_20 = file_get_contents($_FILES['biSlip20Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_20 = null;
+    $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+    $bill = $stmt->fetch(PDO::FETCH_ASSOC);
+    $Slip_30 = $bill['Slip_20']; // Using array notation
 }
 
-$ID = $data['ID'];
-$Bill_ID = $data['biIdInput'];
-$Pay_50 = $data['biPay50Input'];
-if ($Pay_50 === '') {
-    $Pay_50 = 0;
-}
-$Pay_30 = $data['biPay30Input'];
-if ($Pay_30 === '') {
-    $Pay_30 = 0;
-}
-$Pay_20 = $data['biPay20Input'];
-if ($Pay_20 === '') {
-    $Pay_20 = 0;
-}
-$Status_50 = $data['biStatus50Input'];
-$Status_30 = $data['biStatus30Input'];
-$Status_20 = $data['biStatus20Input'];
-$DatePay_50 = $data['biDatePay50Input'];
+$Pay_50 = 0;
+$Pay_30 = 0;
+$Pay_20 = 0;
+$Status_50 = $_POST['biStatus50Input'];
+$Status_30 = $_POST['biStatus30Input'];
+$Status_20 = $_POST['biStatus20Input'];
+$DatePay_50 = $_POST['biDatePay50Input'];
 if ($DatePay_50 === '') {
     $DatePay_50 = null;
-}
-
-$DatePay_30 = $data['biDatePay30Input'];
-if ($DatePay_30 === '') {
     $DatePay_30 = null;
-}
-
-$DatePay_20 = $data['biDatapay20Input'];
-if ($DatePay_20 === '') {
     $DatePay_20 = null;
+} else {
+    $DatePay_30 = date('Y-m-d', strtotime($DatePay_50 . '+15 days'));
+    $DatePay_20 = date('Y-m-d', strtotime($DatePay_50 . '+18 days'));
 }
-
-$Cus_ID = $data['cusIdSelect'];
+$Cus_ID = $_POST['cusIdSelect'];
 if ($Cus_ID === '') {
     $Cus_ID = null;
 }
+
 try {
     $stmt = $PDOconn->prepare("UPDATE Bill 
                            SET Bill_ID = :Bill_ID, 
-                                Pay_50 = :Pay_50, 
-                                Pay_30 = :Pay_30, 
-                                Pay_20 = :Pay_20, 
+                                Slip_50 = :Slip_50, 
+                                Slip_30 = :Slip_30, 
+                                Slip_20 = :Slip_20, 
                                 Status_50 = :Status_50, 
                                 Status_30 = :Status_30, 
                                 Status_20 = :Status_20, 
@@ -70,9 +84,9 @@ try {
                            WHERE Bill_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->bindParam(':Bill_ID', $Bill_ID);
-    $stmt->bindParam(':Pay_50', $Pay_50);
-    $stmt->bindParam(':Pay_30', $Pay_30);
-    $stmt->bindParam(':Pay_20', $Pay_20);
+    $stmt->bindParam(':Slip_50', $Slip_50);
+    $stmt->bindParam(':Slip_30', $Slip_30);
+    $stmt->bindParam(':Slip_20', $Slip_20);
     $stmt->bindParam(':Status_50', $Status_50);
     $stmt->bindParam(':Status_30', $Status_30);
     $stmt->bindParam(':Status_20', $Status_20);

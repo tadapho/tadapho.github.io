@@ -3,9 +3,11 @@ require_once "src/Controllers/ConnectController.php";
 
 $bill = array();
 
-$stmt = $PDOconn->prepare("SELECT Bill.*, Customer.*
+$stmt = $PDOconn->prepare("SELECT Bill.*, Customer.Cus_ID, Quotation.Net_Price
                             FROM Bill
-                            LEFT JOIN Customer ON Bill.Cus_ID = Customer.Cus_ID ");
+                            LEFT JOIN Customer ON Bill.Cus_ID = Customer.Cus_ID 
+                            LEFT JOIN Quotation ON Bill.Bill_ID = Quotation.Bill_ID");
+
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 if ($result) {
@@ -43,7 +45,7 @@ if ($result) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light glassmorphism-light shadow">
+    <nav class="navbar navbar-expand-lg bg-white shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,30 +54,38 @@ if ($result) {
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="department.php">Department</a>
-                    <a class="nav-link" href="department_manager.php">Department-Management</a>
+                    <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link" href="employee.php">Employee</a>
                     <a class="nav-link" href="quotation.php">Quotation</a>
-                    <a class="nav-link active" aria-current="page" href="#">Customer</a>
+                    <a class="nav-link " href="customer.php">Customer</a>
+                    <a class="nav-link" href="project.php">Project</a>
+                    <a class="nav-link" href="supplier.php">Supplier</a>
+                    <a class="nav-link" href="material.php">Material</a>
+                    <a class="nav-link" href="production_order.php">Production-Order</a>
+                    <a class="nav-link " href="area-measurement-sheet.php">Area-measurement-sheet</a>
+                    <a class="nav-link active" href="#">Bill</a>
                 </div>
             </div>
         </div>
     </nav>
     <div class="container-fluid glassmorphism-light shadow my-5 px-4 py-4">
+        <input type="text" id="myInput" class="form-control mb-5" onkeyup="filter()" placeholder="ค้นหา">
         <h1>Bill Table</h1>
         <div class="text-end"><button class="btn btn-success" id="insert-btn">Insert</button></div>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover" id="myTable">
             <thead>
-                <tr>
+                <tr class="table-primary">
                     <th>เลขใบเสร็จ</th>
+                    <th>ราคาสุทธิ</th>
                     <th>รอบชำระ 50%</th>
                     <th>รอบชำระ 30%</th>
                     <th>รอบชำระ 20%</th>
                     <th>สถานะการชำระเงินรอบ 50%</th>
                     <th>สถานะการชำระเงินรอบ 30%</th>
                     <th>สถานะการชำระเงินรอบ 20%</th>
-                    <!-- <th>หลักฐานการชำระเงินรอบ 50%</th>
+                    <th>หลักฐานการชำระเงินรอบ 50%</th>
                     <th>หลักฐานการชำระเงินรอบ 30%</th>
-                    <th>หลักฐานการชำระเงินรอบ 20%</th> -->
+                    <th>หลักฐานการชำระเงินรอบ 20%</th>
                     <th>วันที่ชำระรอบ 50%</th>
                     <th>วันที่ชำระรอบ 30%</th>
                     <th>วันที่ชำระรอบ 20%</th>
@@ -89,13 +99,12 @@ if ($result) {
                         <input type="text" class="form-control bi-id-input" maxlength="6" required />
                     </td>
                     <td>
-                        <input type="number" class="form-control bi-pay50-input" />
                     </td>
                     <td>
-                        <input type="number" class="form-control bi-pay30-input" />
                     </td>
                     <td>
-                        <input type="number" class="form-control bi-pay20-input" />
+                    </td>
+                    <td>
                     </td>
                     <td>
                         <input type="text" class="form-control bi-status50-input" maxlength="10" />
@@ -106,26 +115,21 @@ if ($result) {
                     <td>
                         <input type="text" class="form-control bi-status20-input" maxlength="10" />
                     </td>
-                    <!-- <td>
-                            <span><?= $bi->Slip_50 ?></span>
-                            <input type="number" class="form-control bi-slip50-input" value="<?= $bi->Slip_50 ?>" style="display: none;" />
-                        </td>
-                        <td>
-                            <span><?= $bi->Slip_30 ?></span>
-                            <input type="number" class="form-control bi-slip30-input" value="<?= $bi->Slip_30 ?>" style="display: none;" />
-                        </td>
-                        <td>
-                            <span><?= $bi->Slip_20 ?></span>
-                            <input type="number" class="form-control bi-slip20-input" value="<?= $bi->Slip_20 ?>" style="display: none;" />
-                        </td> -->
+                    <td>
+                        <input type="file" class="form-control bi-slip50-input" accept="image/jpeg, image/png">
+                    </td>
+                    <td>
+                        <input type="file" class="form-control bi-slip30-input" accept="image/jpeg, image/png">
+                    </td>
+                    <td>
+                        <input type="file" class="form-control bi-slip20-input" accept="image/jpeg, image/png">
+                    </td>
                     <td>
                         <input id="datepicker" class="form-control bi-datepay50-input" placeholder="เลือกวันที่ ..">
                     </td>
                     <td>
-                        <input id="datepicker" class="form-control bi-datepay30-input" placeholder="เลือกวันที่ ..">
                     </td>
                     <td>
-                        <input id="datepicker" class="form-control bi-datepay20-input" placeholder="เลือกวันที่ ..">
                     </td>
                     <td>
                         <select class="form-select cus-id-select">
@@ -149,16 +153,16 @@ if ($result) {
                             <input type="text" class="form-control bi-id-input" maxlength="6" value="<?= $bi->Bill_ID ?>" style="display: none;" required />
                         </td>
                         <td>
-                            <span><?= $bi->Pay_50 ?></span>
-                            <input type="number" class="form-control bi-pay50-input" value="<?= $bi->Pay_50 ?>" style="display: none;" />
+                            <span><?= $bi->Net_Price ?></span>
                         </td>
                         <td>
-                            <span><?= $bi->Pay_30 ?></span>
-                            <input type="number" class="form-control bi-pay30-input" value="<?= $bi->Pay_30 ?>" style="display: none;" />
+                            <span><?= $bi->Net_Price > 0 ? ($bi->Net_Price * 50 / 100) : '' ?></span>
                         </td>
                         <td>
-                            <span><?= $bi->Pay_20 ?></span>
-                            <input type="number" class="form-control bi-pay20-input" value="<?= $bi->Pay_20 ?>" style="display: none;" />
+                            <span><?= $bi->Net_Price > 0 ? ($bi->Net_Price * 30 / 100) : '' ?></span>
+                        </td>
+                        <td>
+                            <span><?= $bi->Net_Price > 0 ? ($bi->Net_Price * 20 / 100) : '' ?></span>
                         </td>
                         <td>
                             <span><?= $bi->Status_50 ?></span>
@@ -172,29 +176,36 @@ if ($result) {
                             <span><?= $bi->Status_20 ?></span>
                             <input type="text" class="form-control bi-status20-input" maxlength="10" value="<?= $bi->Status_20 ?>" style="display: none;" />
                         </td>
-                        <!-- <td>
-                            <span><?= $bi->Slip_50 ?></span>
-                            <input type="number" class="form-control bi-slip50-input" value="<?= $bi->Slip_50 ?>" style="display: none;" />
+                        <td>
+                            <?php if ($bi->Slip_50) { ?>
+                                <img class="img-fluid download-img50" src="data:image/jpeg;base64,<?= base64_encode($bi->Slip_50)  ?>" style="width: 200px; cursor: pointer;" />
+                                <!-- <a class="download-img50" style="cursor: pointer;">preview bill</a> -->
+                            <?php } ?>
+                            <input type="file" class="form-control bi-slip50-input" accept="image/jpeg, image/png" style="display: none;">
                         </td>
                         <td>
-                            <span><?= $bi->Slip_30 ?></span>
-                            <input type="number" class="form-control bi-slip30-input" value="<?= $bi->Slip_30 ?>" style="display: none;" />
+                            <?php if ($bi->Slip_30) { ?>
+                                <img class="img-fluid download-img50" src="data:image/jpeg;base64,<?= base64_encode($bi->Slip_30)  ?>" style="width: 200px; cursor: pointer;" />
+                                <!-- <a class="download-img50" style="cursor: pointer;">preview bill</a> -->
+                            <?php } ?>
+                            <input type="file" class="form-control bi-slip30-input" accept="image/jpeg, image/png" style="display: none;">
                         </td>
                         <td>
-                            <span><?= $bi->Slip_20 ?></span>
-                            <input type="number" class="form-control bi-slip20-input" value="<?= $bi->Slip_20 ?>" style="display: none;" />
-                        </td> -->
+                            <?php if ($bi->Slip_20) { ?>
+                                <img class="img-fluid download-img50" src="data:image/jpeg;base64,<?= base64_encode($bi->Slip_20)  ?>" style="width: 200px; cursor: pointer;" />
+                                <!-- <a class="download-img50" style="cursor: pointer;">preview bill</a> -->
+                            <?php } ?>
+                            <input type="file" class="form-control bi-slip20-input" accept="image/jpeg, image/png" style="display: none;">
+                        </td>
                         <td>
-                            <span><?= $bi->DatePay_50 ?></span>
+                            <span><?= date('d/m/Y', strtotime($bi->DatePay_50)) ?></span>
                             <input id="datepicker" class="form-control bi-datepay50-input" value="<?= $bi->DatePay_50 ?>" placeholder="เลือกวันที่ .." style="display: none;">
                         </td>
                         <td>
-                            <span><?= $bi->DatePay_30 ?></span>
-                            <input id="datepicker" class="form-control bi-datepay30-input" value="<?= $bi->DatePay_30 ?>" placeholder="เลือกวันที่ .." style="display: none;">
+                            <span><?= date('d/m/Y', strtotime($bi->DatePay_30)) ?></span>
                         </td>
                         <td>
-                            <span><?= $bi->DatePay_20 ?></span>
-                            <input id="datepicker" class="form-control bi-datepay20-input" value="<?= $bi->DatePay_20 ?>" placeholder="เลือกวันที่ .." style="display: none;">
+                            <span><?= date('d/m/Y', strtotime($bi->DatePay_20)) ?></span>
                         </td>
                         <td>
                             <span>
@@ -224,39 +235,20 @@ if ($result) {
     </div>
 </body>
 
+<script src="public/js/main.js"></script>
 <script>
-    // Initialize Flatpickr
-    flatpickr("#datepicker", {
-        dateFormat: "Y-m-d", // Date format
-    });
-</script>
-<script>
-    function validateFormControls(tr) {
-        const formControls = tr.querySelectorAll('.form-control');
-        formControls.forEach(function(control) {
-            // Validate each form control
-            if (control.required && control.value.trim() === '') {
-                // If the control is empty, add is-invalid class
-                control.classList.add('is-invalid');
-            } else {
-                // If the control is not empty, remove is-invalid class and add is-valid class
-                control.classList.remove('is-invalid');
-                control.classList.add('is-valid');
-            }
+    const MAX_MEDIUMBLOB_SIZE = 16777215; // Maximum size for MEDIUMBLOB in bytes
+
+    const download50 = document.querySelectorAll('.download-img50');
+    // Loop through each edit button to attach event listener
+    download50.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.href = this.src; // Set the image source as the href
+            link.download = 'image.jpg'; // Set the filename for download
+            link.click(); // Trigger the click event to initiate download
         });
-        // Check if any of the form controls have invalid values
-        const invalidControls = tr.querySelectorAll('.is-invalid');
-        if (invalidControls.length > 0) {
-            // If there are invalid controls, display an error message
-            console.log("Validation failed!");
-            Swal.fire({
-                icon: 'warning',
-                text: 'Please fill in required field.'
-            });
-            return false; // Validation failed
-        }
-        return true; // Validation passed
-    }
+    });
 
     // Get insert button
     const insertButton = document.getElementById('insert-btn');
@@ -283,34 +275,42 @@ if ($result) {
             // If validation passes, proceed with api
             console.log("Validation passed ...");
             const biIdInput = tr.querySelector('.bi-id-input').value;
-            const biPay50Input = tr.querySelector('.bi-pay50-input').value;
-            const biPay30Input = tr.querySelector('.bi-pay30-input').value;
-            const biPay20Input = tr.querySelector('.bi-pay20-input').value;
+            const biSlip50Input = tr.querySelector('.bi-slip50-input').files[0];
+            const biSlip30Input = tr.querySelector('.bi-slip30-input').files[0];
+            const biSlip20Input = tr.querySelector('.bi-slip20-input').files[0];
             const biStatus50Input = tr.querySelector('.bi-status50-input').value;
             const biStatus30Input = tr.querySelector('.bi-status30-input').value;
             const biStatus20Input = tr.querySelector('.bi-status20-input').value;
             const biDatePay50Input = tr.querySelector('.bi-datepay50-input').value;
-            const biDatePay30Input = tr.querySelector('.bi-datepay30-input').value;
-            const biDatapay20Input = tr.querySelector('.bi-datepay20-input').value;
             const cusIdSelect = tr.querySelector('.cus-id-select').value;
-            fetch('api/area-measurement-sheet/insert.php', {
+            if (biSlip50Input && biSlip50Input.size > MAX_MEDIUMBLOB_SIZE) {
+                console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                return;
+                // Handle the error, notify the user, prevent form submission, etc.
+            }
+            if (biSlip30Input && biSlip30Input.size > MAX_MEDIUMBLOB_SIZE) {
+                console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                return;
+                // Handle the error, notify the user, prevent form submission, etc.
+            }
+            if (biSlip20Input && biSlip20Input.size > MAX_MEDIUMBLOB_SIZE) {
+                console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                return;
+                // Handle the error, notify the user, prevent form submission, etc.
+            }
+            var formData = new FormData();
+            formData.append('biIdInput', biIdInput);
+            formData.append('biSlip50Input', biSlip50Input);
+            formData.append('biSlip30Input', biSlip30Input);
+            formData.append('biSlip20Input', biSlip20Input);
+            formData.append('biStatus50Input', biStatus50Input);
+            formData.append('biStatus30Input', biStatus30Input);
+            formData.append('biStatus20Input', biStatus20Input);
+            formData.append('biDatePay50Input', biDatePay50Input);
+            formData.append('cusIdSelect', cusIdSelect);
+            fetch('api/bill/insert.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        biIdInput,
-                        biPay50Input,
-                        biPay30Input,
-                        biPay20Input,
-                        biStatus50Input,
-                        biStatus30Input,
-                        biStatus20Input,
-                        biDatePay50Input,
-                        biDatePay30Input,
-                        biDatapay20Input,
-                        cusIdSelect
-                    })
+                    body: formData
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -382,35 +382,43 @@ if ($result) {
                 // If validation passes, proceed with api
                 console.log("Validation passed ...");
                 const biIdInput = tr.querySelector('.bi-id-input').value;
-                const biPay50Input = tr.querySelector('.bi-pay50-input').value;
-                const biPay30Input = tr.querySelector('.bi-pay30-input').value;
-                const biPay20Input = tr.querySelector('.bi-pay20-input').value;
+                const biSlip50Input = tr.querySelector('.bi-slip50-input').files[0];
+                const biSlip30Input = tr.querySelector('.bi-slip30-input').files[0];
+                const biSlip20Input = tr.querySelector('.bi-slip20-input').files[0];
                 const biStatus50Input = tr.querySelector('.bi-status50-input').value;
                 const biStatus30Input = tr.querySelector('.bi-status30-input').value;
                 const biStatus20Input = tr.querySelector('.bi-status20-input').value;
                 const biDatePay50Input = tr.querySelector('.bi-datepay50-input').value;
-                const biDatePay30Input = tr.querySelector('.bi-datepay30-input').value;
-                const biDatapay20Input = tr.querySelector('.bi-datepay20-input').value;
                 const cusIdSelect = tr.querySelector('.cus-id-select').value;
-                fetch('api/area-measurement-sheet/update.php', {
+                if (biSlip50Input && biSlip50Input.size > MAX_MEDIUMBLOB_SIZE) {
+                    console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                    return;
+                    // Handle the error, notify the user, prevent form submission, etc.
+                }
+                if (biSlip30Input && biSlip30Input.size > MAX_MEDIUMBLOB_SIZE) {
+                    console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                    return;
+                    // Handle the error, notify the user, prevent form submission, etc.
+                }
+                if (biSlip20Input && biSlip20Input.size > MAX_MEDIUMBLOB_SIZE) {
+                    console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                    return;
+                    // Handle the error, notify the user, prevent form submission, etc.
+                }
+                var formData = new FormData();
+                formData.append('biIdInput', biIdInput);
+                formData.append('ID', this.value);
+                formData.append('biSlip50Input', biSlip50Input);
+                formData.append('biSlip30Input', biSlip30Input);
+                formData.append('biSlip20Input', biSlip20Input);
+                formData.append('biStatus50Input', biStatus50Input);
+                formData.append('biStatus30Input', biStatus30Input);
+                formData.append('biStatus20Input', biStatus20Input);
+                formData.append('biDatePay50Input', biDatePay50Input);
+                formData.append('cusIdSelect', cusIdSelect);
+                fetch('api/bill/update.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ID: this.value,
-                            biIdInput,
-                            biPay50Input,
-                            biPay30Input,
-                            biPay20Input,
-                            biStatus50Input,
-                            biStatus30Input,
-                            biStatus20Input,
-                            biDatePay50Input,
-                            biDatePay30Input,
-                            biDatapay20Input,
-                            cusIdSelect
-                        })
+                        body: formData
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -479,7 +487,7 @@ if ($result) {
                 confirmButtonText: 'Delete !'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('api/area-measurement-sheet/delete.php', {
+                    fetch('api/bill/delete.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

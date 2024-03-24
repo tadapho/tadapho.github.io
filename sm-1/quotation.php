@@ -7,10 +7,11 @@ $quotation = array();
 //                             FROM Quotation
 //                             LEFT JOIN Managment_Quottaiont_Employee ON Quotation.Quot_ID = Managment_Quottaiont_Employee.Quot_ID
 //                             LEFT JOIN Employee ON Managment_Quottaiont_Employee.Emp_ID = Employee.Emp_ID ");
-$stmt = $PDOconn->prepare("SELECT Quotation.*, Material_Use.M_SKU, Material_Use.Use_num, Managment_Quottaiont_Employee.Emp_ID
+$stmt = $PDOconn->prepare("SELECT Quotation.*, Material_Use.M_SKU, Material_Use.Use_num, Managment_Quottaiont_Employee.Emp_ID, Quot_Cus.Cus_ID
                             FROM Quotation
                             LEFT JOIN Material_Use ON Quotation.Quot_ID = Material_Use.Quot_ID 
                             LEFT JOIN Managment_Quottaiont_Employee ON Quotation.Quot_ID = Managment_Quottaiont_Employee.Quot_ID 
+                            LEFT JOIN Quot_Cus ON Quotation.Quot_ID = Quot_Cus.Quot_ID 
                             -- LEFT JOIN Quot_Cus ON Quotation.Cus_ID = Quot_Cus.Cus_ID 
                             -- LEFT JOIN Bill ON Quotation.Bill_ID = Bill.Bill_ID
                             ");
@@ -52,6 +53,16 @@ if ($result) {
     }
 }
 
+$project = array();
+$stmt = $PDOconn->prepare("SELECT * FROM Project");
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+if ($result) {
+    foreach ($result as $row) {
+        $project[] = $row;
+    }
+}
+
 $bill = array();
 $stmt = $PDOconn->prepare("SELECT * FROM Bill");
 $stmt->execute();
@@ -81,7 +92,7 @@ if ($result) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light glassmorphism-light shadow">
+    <nav class="navbar navbar-expand-lg bg-white shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,20 +101,27 @@ if ($result) {
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="department.php">Department</a>
-                    <a class="nav-link" href="department_manager.php">Department-Management</a>
+                    <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link" href="employee.php">Employee</a>
                     <a class="nav-link active" aria-current="page" href="#">Quotation</a>
                     <a class="nav-link" href="customer.php">Customer</a>
+                    <a class="nav-link" href="project.php">Project</a>
+                    <a class="nav-link" href="supplier.php">Supplier</a>
+                    <a class="nav-link" href="material.php">Material</a>
+                    <a class="nav-link" href="production_order.php">Production-Order</a>
+                    <a class="nav-link " href="area-measurement-sheet.php">Area-measurement-sheet</a>
+                    <a class="nav-link" href="bill.php">Bill</a>
                 </div>
             </div>
         </div>
     </nav>
     <div class="container-fluid glassmorphism-light shadow my-5 px-4 py-4">
+        <input type="text" id="myInput" class="form-control mb-5" onkeyup="filter()" placeholder="ค้นหา">
         <h1>Quotation Table</h1>
         <div class="text-end"><button class="btn btn-success" id="insert-btn">Insert</button></div>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover" id="myTable">
             <thead>
-                <tr>
+                <tr class="table-primary">
                     <th>เลขที่ใบเสนอราคา</th>
                     <th>ราคาสุทธิ</th>
                     <th>วันที่ออกใบเสนอราคา</th>
@@ -148,7 +166,14 @@ if ($result) {
                             <?php } ?>
                         </select>
                     </td>
-                    <td></td>
+                    <td>
+                        <select class="form-select project-id-select">
+                            <option value=""></option>
+                            <?php foreach ($project as $pro) : ?>
+                                <option value="<?= $pro->Project_ID; ?>"><?= $pro->Project_ID  ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
                     <td>
                         <select class="form-select bill-id-select">
                             <option value=""></option>
@@ -183,7 +208,7 @@ if ($result) {
                             <input type="number" class="form-control quo-netprice-input" value="<?= $quo->Net_Price ?>" style="display: none;" required />
                         </td>
                         <td>
-                            <span><?= $quo->Quot_date ?></span>
+                            <span><?= date('d/m/Y', strtotime($quo->Quot_date)) ?></span>
                             <input type="text" id="datepicker" class="form-control quo-date-input" value="<?= $quo->Quot_date ?>" placeholder="เลือกวันที่ .." style="display: none;" />
                         </td>
                         <td>
@@ -209,12 +234,30 @@ if ($result) {
                             <select class="form-select cus-id-select" style="display: none;">
                                 <option value=""></option>
                                 <?php foreach ($customer as $cus) : ?>
-                                    <option value="<?= $cus->Cus_ID; ?>" <?= ($cus->Cus_ID == $quo->Cus_ID) ? 'selected' : '' ?>><?= $quo->Cus_ID  ?></option>
+                                    <option value="<?= $cus->Cus_ID; ?>" <?= ($cus->Cus_ID == $quo->Cus_ID) ? 'selected' : '' ?>><?= $cus->Cus_ID  ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>
-                        <td><?= $quo->Project_ID ?></td>
-                        <td><?= $quo->Bill_ID ?></td>
+                        <td>
+                            <span><?= $quo->Project_ID ?>
+                            </span>
+                            <select class="form-select project-id-select" style="display: none;">
+                                <option value=""></option>
+                                <?php foreach ($project as $pro) : ?>
+                                    <option value="<?= $pro->Project_ID; ?>" <?= ($pro->Project_ID == $quo->Project_ID) ? 'selected' : '' ?>><?= $pro->Project_ID  ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                        <td>
+                            <span><?= $quo->Bill_ID ?>
+                            </span>
+                            <select class="form-select bill-id-select" style="display: none;">
+                                <option value=""></option>
+                                <?php foreach ($bill as $bi) : ?>
+                                    <option value="<?= $bi->Bill_ID; ?>" <?= ($bi->Bill_ID == $quo->Bill_ID) ? 'selected' : '' ?>><?= $bi->Bill_ID  ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                         <td>
                             <span>
                                 <?php foreach ($employee as $emp) { ?>
@@ -243,41 +286,8 @@ if ($result) {
     </div>
 </body>
 
+<script src="public/js/main.js"></script>
 <script>
-    // Initialize Flatpickr
-    flatpickr("#datepicker", {
-        dateFormat: "Y-m-d", // Date format
-    });
-</script>
-<script>
-    function validateFormControls(tr) {
-        const formControls = tr.querySelectorAll('.form-control');
-        formControls.forEach(function(control) {
-            // Validate each form control
-            if (control.required && control.value.trim() === '') {
-                // If the control is empty, add is-invalid class
-                control.classList.add('is-invalid');
-            } else {
-                // If the control is not empty, remove is-invalid class and add is-valid class
-                control.classList.remove('is-invalid');
-                control.classList.add('is-valid');
-            }
-        });
-        // Check if any of the form controls have invalid values
-        const invalidControls = tr.querySelectorAll('.is-invalid');
-        if (invalidControls.length > 0) {
-            // If there are invalid controls, display an error message
-            console.log("Validation failed!");
-            Swal.fire({
-                icon: 'warning',
-                text: 'Please fill in required field.'
-            });
-            return false; // Validation failed
-        }
-
-        return true; // Validation passed
-    }
-
     // Get insert button
     const insertButton = document.getElementById('insert-btn');
     // Attach event listener to insert button
@@ -306,7 +316,10 @@ if ($result) {
             const quoNetpriceInput = tr.querySelector('.quo-netprice-input').value;
             const quoDateInput = tr.querySelector('.quo-date-input').value;
             const quoDetailInput = tr.querySelector('.quo-detail-input').value;
+            const maSkuSelect = tr.querySelector('.ma-sku-select').value;
+            const useNumInput = tr.querySelector('.use-num-input').value;
             const cusIdSelect = tr.querySelector('.cus-id-select').value;
+            const ProjectIdSelect = tr.querySelector('.project-id-select').value;
             const billIdSelect = tr.querySelector('.bill-id-select').value;
             const empIdSelect = tr.querySelector('.emp-id-select').value;
             // emp-id-select
@@ -320,19 +333,22 @@ if ($result) {
                         quoNetpriceInput,
                         quoDateInput,
                         quoDetailInput,
+                        maSkuSelect,
+                        useNumInput,
                         cusIdSelect,
+                        ProjectIdSelect,
                         billIdSelect,
                         empIdSelect
                     })
                 })
                 .then(response => {
                     if (!response.ok) {
-                        // throw new Error(JSON.stringify({
-                        //     title: 'ขออภัย !',
-                        //     message: 'มีข้อผิดพลาดเกิดขึ้น โปรดลองอีกครั้งในภายหลัง',
-                        //     icon: 'error',
-                        //     status: response.status
-                        // }));
+                        throw new Error(JSON.stringify({
+                            title: 'ขออภัย !',
+                            message: 'มีข้อผิดพลาดเกิดขึ้น โปรดลองอีกครั้งในภายหลัง',
+                            icon: 'error',
+                            status: response.status
+                        }));
                     }
                     return response.json();
                 })
@@ -345,7 +361,7 @@ if ($result) {
                         timerProgressBar: true,
                         showConfirmButton: false,
                         willClose: () => {
-                            // window.location.reload();
+                            window.location.reload();
                         }
                     });
                 })
@@ -398,6 +414,11 @@ if ($result) {
                 const quoNetpriceInput = tr.querySelector('.quo-netprice-input').value;
                 const quoDateInput = tr.querySelector('.quo-date-input').value;
                 const quoDetailInput = tr.querySelector('.quo-detail-input').value;
+                const maSkuSelect = tr.querySelector('.ma-sku-select').value;
+                const useNumInput = tr.querySelector('.use-num-input').value;
+                const cusIdSelect = tr.querySelector('.cus-id-select').value;
+                const ProjectIdSelect = tr.querySelector('.project-id-select').value;
+                const billIdSelect = tr.querySelector('.bill-id-select').value;
                 const empIdSelect = tr.querySelector('.emp-id-select').value;
                 fetch('api/quotation/update.php', {
                         method: 'POST',
@@ -410,6 +431,11 @@ if ($result) {
                             quoNetpriceInput,
                             quoDateInput,
                             quoDetailInput,
+                            maSkuSelect,
+                            useNumInput,
+                            cusIdSelect,
+                            ProjectIdSelect,
+                            billIdSelect,
                             empIdSelect
                         })
                     })

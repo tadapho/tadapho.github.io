@@ -12,8 +12,24 @@ $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 if ($result) {
     foreach ($result as $row) {
         $material[] = $row;
+        $Use_num = 0;
+        $stmt2 = $PDOconn->prepare("SELECT Use_num FROM Material_Use WHERE M_SKU = :M_SKU");
+        $stmt2->bindParam(':M_SKU', $row->M_SKU);
+        $stmt2->execute();
+        $result2 = $stmt2->fetchAll(PDO::FETCH_OBJ);
+        if ($result2) {
+            foreach ($result2 as $row2) {
+                $Use_num += $row2->Use_num;
+                // var_dump($row2->Use_num);
+                // echo "<br/>";
+            }
+        }
+        $row->Use_num = $Use_num;
     }
 }
+
+// var_dump($material);
+
 
 $supplier = array();
 $stmt = $PDOconn->prepare("SELECT * FROM Supplier");
@@ -41,7 +57,7 @@ if ($result) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light glassmorphism-light shadow">
+    <nav class="navbar navbar-expand-lg bg-white shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,21 +65,28 @@ if ($result) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" ref="#">Department</a>
-                    <a class="nav-link" href="department_manager.php">Department-Management</a>
+                    <a class="nav-link " href="department.php">Department</a>
+                    <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link" href="employee.php">Employee</a>
                     <a class="nav-link" href="quotation.php">Quotation</a>
                     <a class="nav-link" href="customer.php">Customer</a>
+                    <a class="nav-link" href="project.php">Project</a>
+                    <a class="nav-link" href="supplier.php">Supplier</a>
+                    <a class="nav-link active" aria-current="page" href="#">Material</a>
+                    <a class="nav-link" href="production_order.php">Production-Order</a>
+                    <a class="nav-link " href="area-measurement-sheet.php">Area-measurement-sheet</a>
+                    <a class="nav-link" href="bill.php">Bill</a>
                 </div>
             </div>
         </div>
     </nav>
     <div class="container-fluid glassmorphism-light shadow my-5 px-4 py-4">
+        <input type="text" id="myInput" class="form-control mb-5" onkeyup="filter()" placeholder="ค้นหา">
         <h1>Material Table</h1>
         <div class="text-end"><button class="btn btn-success" id="insert-btn">Insert</button></div>
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
+        <table class="table table-striped table-hover" id="myTable">
+            <thead>
+                <tr class="table-primary">
                     <th class="col-auto" scope="col">รหัสวัสดุ</th>
                     <th class="col-auto" scope="col">ชื่อวัสดุ</th>
                     <th class="col-auto" scope="col">จำนวนสินค้าใน stock</th>
@@ -79,7 +102,7 @@ if ($result) {
                         <input class="form-control ma-sku-input" maxlength="30" required />
                     </td>
                     <td>
-                        <input class="form-control ma-name-input" maxlength="20" required/>
+                        <input class="form-control ma-name-input" maxlength="20" required />
                     </td>
                     <td>
                         <input type="number" class="form-control ma-stock-input" />
@@ -114,14 +137,14 @@ if ($result) {
                         </td>
                         <td>
                             <span><?= $ma->M_Stock ?></span>
-                            <input type="number" class="form-control ma-stock-input" value="<?= $ma->M_Stock ?>" style="display: none;"  />
+                            <input type="number" class="form-control ma-stock-input" value="<?= $ma->M_Stock ?>" style="display: none;" />
                         </td>
                         <td>
-                            <span><?= $ma->M_numStock ?></span>
+                            <span><?= $ma->M_Stock - $ma->Use_num ?></span>
                         </td>
                         <td>
                             <span><?= $ma->M_price ?></span>
-                            <input type="number" class="form-control ma-price-input" value="<?= $ma->M_price ?>" style="display: none;"  />
+                            <input type="number" class="form-control ma-price-input" value="<?= $ma->M_price ?>" style="display: none;" />
                         </td>
                         <td>
                             <span><?= $ma->Sup_ID ?> </span>
@@ -145,36 +168,8 @@ if ($result) {
     </div>
 </body>
 
+<script src="public/js/main.js"></script>
 <script>
-    function validateFormControls(tr) {
-        const formControls = tr.querySelectorAll('.form-control');
-
-        formControls.forEach(function(control) {
-            // Validate each form control
-            if (control.required && control.value.trim() === '') {
-                // If the control is empty, add is-invalid class
-                control.classList.add('is-invalid');
-            } else {
-                // If the control is not empty, remove is-invalid class and add is-valid class
-                control.classList.remove('is-invalid');
-                control.classList.add('is-valid');
-            }
-        });
-        // Check if any of the form controls have invalid values
-        const invalidControls = tr.querySelectorAll('.is-invalid');
-        if (invalidControls.length > 0) {
-            // If there are invalid controls, display an error message
-            console.log("Validation failed!");
-            Swal.fire({
-                icon: 'warning',
-                text: 'Please fill in required field.'
-            });
-            return false; // Validation failed
-        }
-
-        return true; // Validation passed
-    }
-
     // Get insert button
     const insertButton = document.getElementById('insert-btn');
     // Attach event listener to insert button

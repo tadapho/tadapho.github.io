@@ -15,18 +15,28 @@ if ($result) {
     }
 }
 
-$department_manager = array();
-$stmt = $PDOconn->prepare("SELECT Department_Manager.*, Department.*
-                            FROM Department_Manager
-                            LEFT JOIN Department ON Department_Manager.Dept_ID = Department.Dept_ID
-                            ORDER BY Department_Manager.Emp_manager ASC");
+$department = array();
+$stmt = $PDOconn->prepare("SELECT * FROM Department");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 if ($result) {
     foreach ($result as $row) {
-        $department_manager[] = $row;
+        $department[] = $row;
     }
 }
+
+// $department_manager = array();
+// $stmt = $PDOconn->prepare("SELECT Department_Manager.*, Department.*
+//                             FROM Department_Manager
+//                             LEFT JOIN Department ON Department_Manager.Dept_ID = Department.Dept_ID
+//                             ORDER BY Department_Manager.Emp_manager ASC");
+// $stmt->execute();
+// $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+// if ($result) {
+//     foreach ($result as $row) {
+//         $department_manager[] = $row;
+//     }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +54,7 @@ if ($result) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light glassmorphism-light shadow">
+    <nav class="navbar navbar-expand-lg bg-white shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,20 +63,27 @@ if ($result) {
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="department.php">Department</a>
-                    <a class="nav-link" href="department_manager.php">Department-Management</a>
+                    <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link active" aria-current="page" href="#">Employee</a>
                     <a class="nav-link" href="quotation.php">Quotation</a>
                     <a class="nav-link" href="customer.php">Customer</a>
+                    <a class="nav-link" href="project.php">Project</a>
+                    <a class="nav-link" href="supplier.php">Supplier</a>
+                    <a class="nav-link" href="material.php">Material</a>
+                    <a class="nav-link" href="production_order.php">Production-Order</a>
+                    <a class="nav-link " href="area-measurement-sheet.php">Area-measurement-sheet</a>
+                    <a class="nav-link" href="bill.php">Bill</a>
                 </div>
             </div>
         </div>
     </nav>
     <div class="container-fluid glassmorphism-light shadow my-5 px-4 py-4">
+        <input type="text" id="myInput" class="form-control mb-5" onkeyup="filter()" placeholder="ค้นหา">
         <h1>Employee Table</h1>
         <div class="text-end"><button class="btn btn-success" id="insert-btn">Insert</button></div>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover" id="myTable">
             <thead>
-                <tr>
+                <tr class="table-primary">
                     <th>รหัสพนักงาน</th>
                     <th>ชื่อ</th>
                     <th>นามสกุล</th>
@@ -78,6 +95,8 @@ if ($result) {
                     <th>ถนน</th>
                     <th>รหัสไปรษณีย์</th>
                     <th>รหัสผู้จัดการ</th>
+                    <th>ฝ่าย</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -112,11 +131,20 @@ if ($result) {
                     <td>
                         <input class="form-control emp-zipcode-input" maxlength="5" />
                     </td>
-                    <td>
+                    <!-- <td>
                         <select class="form-select emp-manager-select">
                             <option value=""></option>
                             <?php foreach ($department_manager as $deptm) { ?>
                                 <option value="<?= $deptm->Emp_manager ?>"><?= $deptm->Emp_manager . " : " . $deptm->Dept_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </td> -->
+                    <td></td>
+                    <td>
+                        <select class="form-select dep-id-select">
+                            <option value=""></option>
+                            <?php foreach ($department as $dep) { ?>
+                                <option value="<?= $dep->Dept_ID ?>"><?= $dep->Dept_name; ?></option>
                             <?php } ?>
                         </select>
                     </td>
@@ -169,21 +197,27 @@ if ($result) {
                             <span><?= $emp->Emp_zipcode ?></span>
                             <input class="form-control emp-zipcode-input" maxlength="5" value="<?= $emp->Emp_zipcode ?>" style="display: none;" />
                         </td>
-                        <td>
-                            <span>
-                                <?php foreach ($department_manager as $deptm) { ?>
-                                    <?= ($emp->Dept_ID == $deptm->Dept_ID) ? $deptm->Emp_manager . " : " . $deptm->Dept_name : '' ?>
-                                <?php } ?>
+                        <!-- <td>
+                            <span><?= $emp->Emp_manager  ?>
                             </span>
                             <select class="form-select emp-manager-select" style="display: none;">
                                 <option value=""></option>
                                 <?php foreach ($department_manager as $deptm) { ?>
                                     <option value="<?= $deptm->Emp_manager ?>" <?= ($emp->Emp_manager == $deptm->Emp_manager) ? 'selected' : '' ?>>
-                                        <?= $deptm->Emp_manager . " : " . $deptm->Dept_name ?>
+                                        <?= $deptm->Emp_manager  ?>
                                     </option>
                                 <?php } ?>
                             </select>
-
+                        </td> -->
+                        <td><?= $emp->Emp_manager  ?></td>
+                        <td>
+                            <span><?= $emp->Dept_name ?></span>
+                            <select class="form-select dep-id-select" style="display: none;">
+                                <option value=""></option>
+                                <?php foreach ($department as $dep) { ?>
+                                    <option value="<?= $dep->Dept_ID ?>" <?= ($dep->Dept_ID == $emp->Dept_ID) ? 'selected' : '' ?>><?= $dep->Dept_name; ?></option>
+                                <?php } ?>
+                            </select>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary edit-btn">Edit</button>
@@ -200,36 +234,8 @@ if ($result) {
     </div>
 </body>
 
-
+<script src="public/js/main.js"></script>
 <script>
-    function validateFormControls(tr) {
-        const formControls = tr.querySelectorAll('.form-control');
-        formControls.forEach(function(control) {
-            // Validate each form control
-            if (control.required && control.value.trim() === '') {
-                // If the control is empty, add is-invalid class
-                control.classList.add('is-invalid');
-            } else {
-                // If the control is not empty, remove is-invalid class and add is-valid class
-                control.classList.remove('is-invalid');
-                control.classList.add('is-valid');
-            }
-        });
-        // Check if any of the form controls have invalid values
-        const invalidControls = tr.querySelectorAll('.is-invalid');
-        if (invalidControls.length > 0) {
-            // If there are invalid controls, display an error message
-            console.log("Validation failed!");
-            Swal.fire({
-                icon: 'warning',
-                text: 'Please fill in required field.'
-            });
-            return false; // Validation failed
-        }
-
-        return true; // Validation passed
-    }
-
     // Get insert button
     const insertButton = document.getElementById('insert-btn');
     // Attach event listener to insert button
@@ -264,7 +270,9 @@ if ($result) {
             const empCityInput = tr.querySelector('.emp-city-input').value;
             const empStreetInput = tr.querySelector('.emp-street-input').value;
             const empZipcodeInput = tr.querySelector('.emp-zipcode-input').value;
-            const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+            // const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+            const depIpSelect = tr.querySelector('.dep-id-select').value;
+            //dep-id-select
             fetch('api/employee/insert.php', {
                     method: 'POST',
                     headers: {
@@ -281,7 +289,8 @@ if ($result) {
                         empCityInput,
                         empStreetInput,
                         empZipcodeInput,
-                        empManagerSelect
+                        // empManagerSelect
+                        depIpSelect
                     })
                 })
                 .then(response => {
@@ -363,7 +372,8 @@ if ($result) {
                 const empCityInput = tr.querySelector('.emp-city-input').value;
                 const empStreetInput = tr.querySelector('.emp-street-input').value;
                 const empZipcodeInput = tr.querySelector('.emp-zipcode-input').value;
-                const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+                // const empManagerSelect = tr.querySelector('.emp-manager-select').value;
+                const depIpSelect = tr.querySelector('.dep-id-select').value;
                 fetch('api/employee/update.php', {
                         method: 'POST',
                         headers: {
@@ -381,7 +391,8 @@ if ($result) {
                             empCityInput,
                             empStreetInput,
                             empZipcodeInput,
-                            empManagerSelect
+                            // empManagerSelect
+                            depIpSelect
                         })
                     })
                     .then(response => {

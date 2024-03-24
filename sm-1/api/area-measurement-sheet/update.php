@@ -26,8 +26,8 @@ if ($AMS_date === '') {
     $AMS_date = null;
 }
 $Loc_HNo = $data['areaHnoInput'];
-$Loc_city = $data['areaStreetInput'];
-$Loc_street = $data['areaCityInput'];
+$Loc_city = $data['areaCityInput'];
+$Loc_street = $data['areaStreetInput'];
 $loc_zipcode = $data['areaZipcodeInput'];
 $Project_ID = $data['projectIdSelect'];
 $Quot_ID = $data['quotationIdSelect'];

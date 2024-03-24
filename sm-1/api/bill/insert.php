@@ -9,47 +9,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Check data
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
-if (!isset($data)) {
-    http_response_code(422);
-    echo json_encode(array("error" => "Input is required."));
-    exit;
+$Bill_ID = $_POST['biIdInput'];
+if (isset($_FILES['biSlip50Input']) && $_FILES['biSlip50Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_50 = file_get_contents($_FILES['biSlip50Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_50 = null;
 }
-
-$Bill_ID = $data['biIdInput'];
-$Pay_50 = $data['biPay50Input'];
-if ($Pay_50 === '') {
-    $Pay_50 = 0;
+if (isset($_FILES['biSlip30Input']) && $_FILES['biSlip30Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_30 = file_get_contents($_FILES['biSlip30Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_30 = null;
 }
-$Pay_30 = $data['biPay30Input'];
-if ($Pay_30 === '') {
-    $Pay_30 = 0;
+if (isset($_FILES['biSlip20Input']) && $_FILES['biSlip20Input']['error'] === UPLOAD_ERR_OK) {
+    $Slip_20 = file_get_contents($_FILES['biSlip20Input']['tmp_name']); // Read file contents for blob
+} else {
+    $Slip_20 = null;
 }
-$Pay_20 = $data['biPay20Input'];
-if ($Pay_20 === '') {
-    $Pay_20 = 0;
-}
-$Status_50 = $data['biStatus50Input'];
-$Status_30 = $data['biStatus30Input'];
-$Status_20 = $data['biStatus20Input'];
-$DatePay_50 = $data['biDatePay50Input'];
+$Pay_50 = 0;
+$Pay_30 = 0;
+$Pay_20 = 0;
+$Status_50 = $_POST['biStatus50Input'];
+$Status_30 = $_POST['biStatus30Input'];
+$Status_20 = $_POST['biStatus20Input'];
+$DatePay_50 = $_POST['biDatePay50Input'];
 if ($DatePay_50 === '') {
     $DatePay_50 = null;
-}
-
-$DatePay_30 = $data['biDatePay30Input'];
-if ($DatePay_30 === '') {
     $DatePay_30 = null;
-}
-
-$DatePay_20 = $data['biDatapay20Input'];
-if ($DatePay_20 === '') {
     $DatePay_20 = null;
+} else {
+    $DatePay_30 = date('Y-m-d', strtotime($DatePay_50 . '+15 days'));
+    $DatePay_20 = date('Y-m-d', strtotime($DatePay_50 . '+18 days'));
 }
-
-$Cus_ID = $data['cusIdSelect'];
+$Cus_ID = $_POST['cusIdSelect'];
 if ($Cus_ID === '') {
     $Cus_ID = null;
 }
@@ -65,13 +56,12 @@ try {
         echo json_encode(array("message" => "Bill_ID already exists."));
         exit;
     } else {
-        // Insert new data into Employee table
-        $stmt = $PDOconn->prepare("INSERT INTO Bill (Bill_ID, Pay_50, Pay_30, Pay_20, Status_50, Status_30, Status_20, DatePay_50, DatePay_30, DatePay_20, Cus_ID) 
-                                    VALUES (:Bill_ID, :Pay_50, :Pay_30, :Pay_20, :Status_50, :Status_30, :Status_20, :DatePay_50, :DatePay_30, :DatePay_20, :Cus_ID)");
+        $stmt = $PDOconn->prepare("INSERT INTO Bill (Bill_ID, Slip_50, Slip_30, Slip_20, Status_50, Status_30, Status_20, DatePay_50, DatePay_30, DatePay_20, Cus_ID) 
+                            VALUES (:Bill_ID, :Slip_50, :Slip_30, :Slip_20, :Status_50, :Status_30, :Status_20, :DatePay_50, :DatePay_30, :DatePay_20, :Cus_ID)");
         $stmt->bindParam(':Bill_ID', $Bill_ID);
-        $stmt->bindParam(':Pay_50', $Pay_50);
-        $stmt->bindParam(':Pay_30', $Pay_30);
-        $stmt->bindParam(':Pay_20', $Pay_20);
+        $stmt->bindParam(':Slip_50', $Slip_50);
+        $stmt->bindParam(':Slip_30', $Slip_30);
+        $stmt->bindParam(':Slip_20', $Slip_20);
         $stmt->bindParam(':Status_50', $Status_50);
         $stmt->bindParam(':Status_30', $Status_30);
         $stmt->bindParam(':Status_20', $Status_20);

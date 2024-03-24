@@ -25,12 +25,21 @@ if ($AMS_date === '') {
     $AMS_date = null;
 }
 $Loc_HNo = $data['areaHnoInput'];
-$Loc_city = $data['areaStreetInput'];
-$Loc_street = $data['areaCityInput'];
+$Loc_city = $data['areaCityInput'];
+$Loc_street = $data['areaStreetInput'];
 $loc_zipcode = $data['areaZipcodeInput'];
 $Project_ID = $data['projectIdSelect'];
+if($Project_ID === '') {
+    $Project_ID = null;
+}
 $Quot_ID = $data['quotationIdSelect'];
+if($Quot_ID === '') {
+    $Quot_ID = null;
+}
 $M_SKU = $data['materialIdSelect'];
+if($M_SKU === '') {
+    $M_SKU = null;
+}
 $Measurement = $data['areaMeasurementInput'];
 
 try {
@@ -45,12 +54,13 @@ try {
         exit;
     } else {
         // Insert new data into Area_Measurement_Sheet table
-        $stmt = $PDOconn->prepare("INSERT INTO Area_Measurement_Sheet (AMS_ID, AMS_time, AMS_date, Loc_HNo, Loc_street, loc_zipcode, Quot_ID) 
-                                    VALUES (:AMS_ID, :AMS_time, :AMS_date, :Loc_HNo, :Loc_street, :loc_zipcode, :Quot_ID)");
+        $stmt = $PDOconn->prepare("INSERT INTO Area_Measurement_Sheet (AMS_ID, AMS_time, AMS_date, Loc_HNo, Loc_city, Loc_street, loc_zipcode, Quot_ID) 
+                                    VALUES (:AMS_ID, :AMS_time, :AMS_date, :Loc_HNo, :Loc_city, :Loc_street, :loc_zipcode, :Quot_ID)");
         $stmt->bindParam(':AMS_ID', $AMS_ID);
         $stmt->bindParam(':AMS_time', $AMS_time);
         $stmt->bindParam(':AMS_date', $AMS_date);
         $stmt->bindParam(':Loc_HNo', $Loc_HNo);
+        $stmt->bindParam(':Loc_city', $Loc_city);
         $stmt->bindParam(':Loc_street', $Loc_street);
         $stmt->bindParam(':loc_zipcode', $loc_zipcode);
         $stmt->bindParam(':Quot_ID', $Quot_ID);

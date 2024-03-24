@@ -4,6 +4,11 @@ $username = "root";
 $password = '';
 $dbname = "sm_1";
 
+// $servername = "119.46.163.140";
+// $username = "mtts-db";
+// $password = "Mzk@b686@2";
+// $dbname = "mtts-db";
+
 try {
     $PDOconn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
     $PDOconn->exec("SET CHARACTER SET utf8");

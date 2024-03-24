@@ -32,12 +32,23 @@ $Emp_HNo = $data['empHnoInput'];
 $Emp_city = $data['empCityInput'];
 $Emp_street = $data['empStreetInput'];
 $Emp_zipcode = $data['empZipcodeInput'];
-$Emp_manager = $data['empManagerSelect'];
-if($Emp_manager === '') {
-    $Emp_manager = null;
+// $Emp_manager = $data['empManagerSelect'];
+// if ($Emp_manager === '') {
+//     $Emp_manager = null;
+// }
+$Dept_ID = $data['depIpSelect'];
+if ($Dept_ID === '') {
+    $Dept_ID = null;
 }
 
 try {
+    $stmt = $PDOconn->prepare("UPDATE Department_Manager 
+                                SET Dept_ID = :Dept_ID
+                                WHERE Emp_manager = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->bindParam(':Dept_ID', $Dept_ID);
+    $stmt->execute();
+
     $stmt = $PDOconn->prepare("UPDATE Employee 
                                 SET Emp_ID = :Emp_ID, 
                                     Emp_Fname = :Emp_Fname, 

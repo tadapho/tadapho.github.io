@@ -21,7 +21,13 @@ if (!isset($data)) {
 $M_SKU = $data['maSkuInput'];
 $M_name = $data['maNameInput'];
 $M_Stock = $data['maStockInput'];
+if($M_Stock === '') {
+    $M_Stock = 0;
+}
 $M_price = $data['maPriceInput'];
+if($M_price === '') {
+    $M_price = 0;
+}
 $Sup_ID = $data['subIdSelect'];
 
 try {
@@ -43,10 +49,10 @@ try {
         $stmt->bindParam(':M_price', $M_price, PDO::PARAM_INT);
         $stmt->execute();
         // Insert new data
-        $stmt = $PDOconn->prepare("INSERT INTO Sending_Materal (M_SKU, Sup_ID) VALUES (:M_SKU, :Sup_ID)");
-        $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
-        $stmt->bindParam(':Sup_ID', $Sup_ID, PDO::PARAM_STR);
-        $stmt->execute();
+        // $stmt = $PDOconn->prepare("INSERT INTO Sending_Materal (M_SKU, Sup_ID) VALUES (:M_SKU, :Sup_ID)");
+        // $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
+        // $stmt->bindParam(':Sup_ID', $Sup_ID, PDO::PARAM_STR);
+        // $stmt->execute();
     }
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));

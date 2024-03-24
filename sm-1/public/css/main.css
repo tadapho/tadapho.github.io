@@ -10,7 +10,7 @@
     /* height: 100%; */
     /* width: 100vh; */
     /* height: 100vh; */
-    /* background-image: url("../pic/ebg.jpg"); */
+    background-image: url("../images/blue.jpg");
     background-color: #EEEEEE;
     background-position: center;
     background-size: cover;
@@ -29,11 +29,18 @@
   .glassmorphism-light,
   .glassmorphism-dark {
     border: 2px solid rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 25px;
     z-index: 2;
     overflow: hidden;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+  }
+
+  #myInput {
+    background-image: url('../pic/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding-left: 40px;
   }
   
