@@ -20,7 +20,6 @@ $Bill_ID = $_POST['biIdInput'];
 if (isset($_FILES['biSlip50Input']) && $_FILES['biSlip50Input']['error'] === UPLOAD_ERR_OK) {
     $Slip_50 = file_get_contents($_FILES['biSlip50Input']['tmp_name']); // Read file contents for blob
 } else {
-    $Slip_50 = null;
     $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->execute();
@@ -30,7 +29,6 @@ if (isset($_FILES['biSlip50Input']) && $_FILES['biSlip50Input']['error'] === UPL
 if (isset($_FILES['biSlip30Input']) && $_FILES['biSlip30Input']['error'] === UPLOAD_ERR_OK) {
     $Slip_30 = file_get_contents($_FILES['biSlip30Input']['tmp_name']); // Read file contents for blob
 } else {
-    $Slip_30 = null;
     $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->execute();
@@ -40,12 +38,11 @@ if (isset($_FILES['biSlip30Input']) && $_FILES['biSlip30Input']['error'] === UPL
 if (isset($_FILES['biSlip20Input']) && $_FILES['biSlip20Input']['error'] === UPLOAD_ERR_OK) {
     $Slip_20 = file_get_contents($_FILES['biSlip20Input']['tmp_name']); // Read file contents for blob
 } else {
-    $Slip_20 = null;
     $stmt = $PDOconn->prepare("SELECT * FROM Bill WHERE Bill_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->execute();
     $bill = $stmt->fetch(PDO::FETCH_ASSOC);
-    $Slip_30 = $bill['Slip_20']; // Using array notation
+    $Slip_20 = $bill['Slip_20']; // Using array notation
 }
 
 $Pay_50 = 0;

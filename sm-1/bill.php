@@ -285,16 +285,34 @@ if ($result) {
             const cusIdSelect = tr.querySelector('.cus-id-select').value;
             if (biSlip50Input && biSlip50Input.size > MAX_MEDIUMBLOB_SIZE) {
                 console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Size Exceeds Limit',
+                    text: 'The file size exceeds the maximum allowed.',
+                    confirmButtonText: 'OK'
+                });
                 return;
                 // Handle the error, notify the user, prevent form submission, etc.
             }
             if (biSlip30Input && biSlip30Input.size > MAX_MEDIUMBLOB_SIZE) {
                 console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Size Exceeds Limit',
+                    text: 'The file size exceeds the maximum allowed.',
+                    confirmButtonText: 'OK'
+                });
                 return;
                 // Handle the error, notify the user, prevent form submission, etc.
             }
             if (biSlip20Input && biSlip20Input.size > MAX_MEDIUMBLOB_SIZE) {
                 console.log("File size exceeds the maximum allowed size for MEDIUMBLOB.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Size Exceeds Limit',
+                    text: 'The file size exceeds the maximum allowed.',
+                    confirmButtonText: 'OK'
+                });
                 return;
                 // Handle the error, notify the user, prevent form submission, etc.
             }
