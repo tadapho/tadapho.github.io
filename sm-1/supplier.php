@@ -138,7 +138,7 @@ if ($result) {
                         </td>
                         <td>
                             <span><?= $sup->Sup_HNo ?></span>
-                            <input class="form-control sup-hno-input" maxlength="12" value="<?= $sup->Sup_city ?>" style="display: none;" required />
+                            <input class="form-control sup-hno-input" maxlength="12" value="<?= $sup->Sup_HNo ?>" style="display: none;" required />
                         </td>
                         <td>
                             <span><?= $sup->Sup_street ?></span>

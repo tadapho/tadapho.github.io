@@ -35,6 +35,9 @@ if ($Cus_ID === '') {
     $Cus_ID = null;
 }
 $M_SKU = $data['maSkuSelect'];
+if ($M_SKU === '') {
+    $M_SKU = null;
+}
 $Use_num = $data['useNumInput'];
 $Emp_ID = $data['empIdSelect'];
 if ($Emp_ID === '') {
@@ -50,6 +53,7 @@ if ($Bill_ID === '') {
 }
 
 try {
+    $PDOconn->beginTransaction();
     $stmt = $PDOconn->prepare("UPDATE Quotation 
                                 SET Quot_ID = :Quot_ID, 
                                     Net_Price = :Net_Price, 
@@ -90,8 +94,7 @@ try {
     $stmt->bindParam(':Cus_ID', $Cus_ID);
     $stmt->execute();
 
-
-
+    $PDOconn->commit();
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));
 } catch (PDOException $e) {

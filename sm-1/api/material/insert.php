@@ -29,6 +29,9 @@ if($M_price === '') {
     $M_price = 0;
 }
 $Sup_ID = $data['subIdSelect'];
+if($Sup_ID === '') {
+    $Sup_ID = null;
+}
 
 try {
     // Check if the M_SKU already exists
@@ -41,6 +44,7 @@ try {
         echo json_encode(array("message" => "M_SKU already exists."));
         exit;
     } else {
+        $PDOconn->beginTransaction();
         // Insert new data
         $stmt = $PDOconn->prepare("INSERT INTO Material (M_SKU, M_name, M_Stock, M_price) VALUES (:M_SKU, :M_name, :M_Stock, :M_price)");
         $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
@@ -49,10 +53,11 @@ try {
         $stmt->bindParam(':M_price', $M_price, PDO::PARAM_INT);
         $stmt->execute();
         // Insert new data
-        // $stmt = $PDOconn->prepare("INSERT INTO Sending_Materal (M_SKU, Sup_ID) VALUES (:M_SKU, :Sup_ID)");
-        // $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
-        // $stmt->bindParam(':Sup_ID', $Sup_ID, PDO::PARAM_STR);
-        // $stmt->execute();
+        $stmt = $PDOconn->prepare("INSERT INTO Sending_Materal (M_SKU, Sup_ID) VALUES (:M_SKU, :Sup_ID)");
+        $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
+        $stmt->bindParam(':Sup_ID', $Sup_ID, PDO::PARAM_STR);
+        $stmt->execute();
+        $PDOconn->commit();
     }
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));

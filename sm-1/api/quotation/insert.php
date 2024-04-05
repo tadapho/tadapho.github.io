@@ -65,6 +65,7 @@ try {
         echo json_encode(array("message" => "Quot_ID already exists."));
         exit;
     } else {
+        $PDOconn->beginTransaction();
         // Insert new data into Employee table
         $stmt = $PDOconn->prepare("INSERT INTO Quotation (Quot_ID, Net_Price, Quot_date, Quot_detail, Project_ID, Bill_ID) 
                                     VALUES (:Quot_ID, :Net_Price, :Quot_date, :Quot_detail, :Project_ID, :Bill_ID)");
@@ -94,6 +95,7 @@ try {
         $stmt->bindParam(':M_SKU', $M_SKU);
         $stmt->bindParam(':Use_num', $Use_num);
         $stmt->execute();
+        $PDOconn->commit();
     }
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));

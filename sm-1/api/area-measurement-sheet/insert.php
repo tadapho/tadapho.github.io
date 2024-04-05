@@ -53,6 +53,7 @@ try {
         echo json_encode(array("message" => "AMS_ID already exists."));
         exit;
     } else {
+        $PDOconn->beginTransaction();
         // Insert new data into Area_Measurement_Sheet table
         $stmt = $PDOconn->prepare("INSERT INTO Area_Measurement_Sheet (AMS_ID, AMS_time, AMS_date, Loc_HNo, Loc_city, Loc_street, loc_zipcode, Quot_ID) 
                                     VALUES (:AMS_ID, :AMS_time, :AMS_date, :Loc_HNo, :Loc_city, :Loc_street, :loc_zipcode, :Quot_ID)");
@@ -78,6 +79,7 @@ try {
         $stmt->bindParam(':AMS_ID', $AMS_ID);
         $stmt->bindParam(':M_SKU', $M_SKU);
         $stmt->execute();
+        $PDOconn->commit();
     }
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));

@@ -29,6 +29,7 @@ if($Sup_ID === '') {
 }
 
 try {
+    $PDOconn->beginTransaction();
     $stmt = $PDOconn->prepare("UPDATE Material 
                                 SET M_SKU = :M_SKU,
                                     M_name = :M_name, 
@@ -49,6 +50,7 @@ try {
     $stmt->bindParam(':M_SKU', $M_SKU, PDO::PARAM_STR);
     $stmt->bindParam(':Sup_ID', $Sup_ID, PDO::PARAM_STR);
     $stmt->execute();
+    $PDOconn->commit();
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));
 } catch (PDOException $e) {

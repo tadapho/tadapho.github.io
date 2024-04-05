@@ -22,6 +22,9 @@ $PO_ID = $data['proIdInput'];
 $PO_month = $data['proMonthInput'];
 $PO_detail = $data['proDetailInput'];
 $M_SKU = $data['maSkuSelect'];
+if($M_SKU === '') {
+    $M_SKU = null;
+}
 
 try {
     // Check if the PO_ID already exists
@@ -34,6 +37,7 @@ try {
         echo json_encode(array("message" => "PO_ID already exists."));
         exit;
     } else {
+        $PDOconn->beginTransaction();
         // Insert new data
         $stmt = $PDOconn->prepare("INSERT INTO Production_Order (PO_ID, PO_month, PO_detail) VALUES (:PO_ID, :PO_month, :PO_detail)");
         $stmt->bindParam(':PO_ID', $PO_ID);
@@ -46,6 +50,7 @@ try {
         $stmt->bindParam(':PO_ID', $PO_ID);
         $stmt->bindParam(':M_SKU', $M_SKU);
         $stmt->execute();
+        $PDOconn->commit();
     }
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));

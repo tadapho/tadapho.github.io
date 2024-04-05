@@ -143,7 +143,7 @@ if ($result) {
                         </td>
                         <td>
                             <span><?= $cus->Cus_Lname ?></span>
-                            <input class="form-control cus-lname-input" maxlength="18" value="<?= $cus->Cus_Fname ?>" style="display: none;" required />
+                            <input class="form-control cus-lname-input" maxlength="18" value="<?= $cus->Cus_Lname ?>" style="display: none;" required />
                         </td>
                         <td>
                             <span><?= $cus->Cus_Tel ?></span>
@@ -159,7 +159,7 @@ if ($result) {
                         </td>
                         <td>
                             <span><?= $cus->Cus_city ?></span>
-                            <input class="form-control cus-city-input" maxlength="12" value="<?= $cus->Cus_HNo ?>" style="display: none;" />
+                            <input class="form-control cus-city-input" maxlength="12" value="<?= $cus->Cus_city ?>" style="display: none;" />
                         </td>
                         <td>
                             <span><?= $cus->Cus_street ?></span>
@@ -171,7 +171,7 @@ if ($result) {
                         </td>
                         <td>
                             <span>
-                                <?= $emp->Emp_ID ?>
+                                <?= $cus->Emp_ID ?>
                             </span>
                             <select class="form-select emp-id-select" style="display: none;">
                                 <option value=""></option>

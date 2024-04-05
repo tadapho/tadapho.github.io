@@ -44,6 +44,7 @@ if ($M_SKU === '') {
 }
 
 try {
+    $PDOconn->beginTransaction();
     $stmt = $PDOconn->prepare("UPDATE Area_Measurement_Sheet 
                                 SET AMS_ID = :AMS_ID,
                                 AMS_time = :AMS_time, 
@@ -80,6 +81,7 @@ try {
     $stmt->bindParam(':ID', $ID);
     $stmt->bindParam(':M_SKU', $M_SKU);
     $stmt->execute();
+    $PDOconn->commit();
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));
 } catch (PDOException $e) {
