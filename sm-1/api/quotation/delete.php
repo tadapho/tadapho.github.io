@@ -21,9 +21,25 @@ if (!isset($data['ID']) && empty($data['ID'])) {
 $ID = $data['ID'];
 
 try {
+    $PDOconn->beginTransaction();
+
     $stmt = $PDOconn->prepare("DELETE FROM Quotation WHERE Quot_ID = :ID");
     $stmt->bindParam(':ID', $ID);
     $stmt->execute();
+
+    $stmt = $PDOconn->prepare("DELETE FROM Managment_Quottaiont_Employee WHERE Quot_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+
+    $stmt = $PDOconn->prepare("DELETE FROM Quot_Cus WHERE Quot_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+
+    $stmt = $PDOconn->prepare("DELETE FROM Material_Use WHERE Quot_ID = :ID");
+    $stmt->bindParam(':ID', $ID);
+    $stmt->execute();
+    
+    $PDOconn->commit();
     http_response_code(200);
     echo json_encode(array("message" => "Data update successfully."));
 } catch (PDOException $e) {
