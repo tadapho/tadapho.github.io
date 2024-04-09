@@ -39,6 +39,7 @@ if ($result) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
                     <a class="nav-link active" aria-current="page" ref="#">Department</a>
                     <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link" href="employee.php">Employee</a>
@@ -92,7 +93,7 @@ if ($result) {
                         </td>
                         <td>
                             <span><?= $dept->Emp_manager ?></span>
-                            <input class="form-control emp-manager-input" maxlength="4" value="<?= $dept->Emp_manager ?>" style="display: none;" required/>
+                            <input class="form-control emp-manager-input" maxlength="4" value="<?= $dept->Emp_manager ?>" style="display: none;" required />
                         </td>
                         <td>
                             <span class="dept-name"><?= $dept->Dept_name ?></span>

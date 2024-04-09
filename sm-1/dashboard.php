@@ -1,7 +1,7 @@
 <?php
 require_once "src/Controllers/ConnectController.php";
 
-$stmt = $PDOconn->prepare("SELECT M_SKU, SUM(Use_num) AS totalUse FROM Material_Use GROUP BY M_SKU");
+$stmt = $PDOconn->prepare("SELECT M_SKU, SUM(Use_num) AS totalUse FROM material_use GROUP BY M_SKU");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $labels_material_use = array();
@@ -10,9 +10,8 @@ foreach ($result as $row) {
     $labels_material_use[] = $row['M_SKU'];
     $values_material_use[] = $row['totalUse'];
 }
-exit();
 
-$stmt = $PDOconn->prepare("SELECT Project_ID, P_name, P_num FROM Project");
+$stmt = $PDOconn->prepare("SELECT Project_ID, P_name, P_num FROM project");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $labels_project = array();
@@ -23,7 +22,7 @@ foreach ($result as $row) {
 }
 
 $startDate = date('Y-m-d', strtotime('-12 months'));
-$stmt = $PDOconn->prepare("SELECT DATE_FORMAT(Quot_date, '%Y-%m') AS month_year, SUM(Net_Price) AS totalNetPrice FROM Quotation WHERE Quot_date >= :start_date GROUP BY month_year");
+$stmt = $PDOconn->prepare("SELECT DATE_FORMAT(Quot_date, '%Y-%m') AS month_year, SUM(Net_Price) AS totalNetPrice FROM quotation WHERE Quot_date >= :start_date GROUP BY month_year");
 $stmt->bindParam(':start_date', $startDate);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -96,17 +95,17 @@ $values_quotation = array_reverse($values_quotation);
     <div class="container-fluid">
         <div class="glassmorphism-light shadow my-5 px-4 py-4">
             <h1>Material</h1>
-            <canvas id="chart_material" height="50"></canvas>
+            <canvas id="chart_material" height="100"></canvas>
         </div>
         <div class="glassmorphism-light shadow my-5 px-4 py-4">
             <h1>Project</h1>
-            <canvas id="chart_project" height="50"></canvas>
+            <canvas id="chart_project" height="100"></canvas>
         </div>
     </div>
     <div class="container-fluid">
         <div class="glassmorphism-light shadow my-5 px-4 py-4">
             <h1>Total Net_Price</h1>
-            <canvas id="chart_quotation" height="50"></canvas>
+            <canvas id="chart_quotation" height="100"></canvas>
         </div>
     </div>
 </body>

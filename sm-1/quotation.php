@@ -100,6 +100,7 @@ if ($result) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
                     <a class="nav-link" href="department.php">Department</a>
                     <!-- <a class="nav-link" href="department_manager.php">Department-Management</a> -->
                     <a class="nav-link" href="employee.php">Employee</a>
