@@ -1,0 +1,56 @@
+/* กำหนดสีพื้นหลังของ body เป็นสีเทาอ่อน */
+body {
+    background-color: #A9A9A9;
+}
+
+/* ตั้งค่าพื้นหลังของส่วน header เป็นภาพจากไฟล์ 'profile.jpg' */
+.header-img {
+    background-image: url('images/profile.jpg');
+    /* ใส่ภาพพื้นหลัง */
+    background-size: cover;
+    /* ปรับขนาดของภาพให้ครอบคลุมพื้นที่ */
+    background-position: center;
+    /* จัดตำแหน่งภาพให้อยู่ตรงกลาง */
+    height: 500px;
+    /* กำหนดความสูงของส่วน header */
+    position: relative;
+    /* ตั้งค่าตำแหน่งให้เป็น relative */
+    display: flex;
+    /* ใช้ flexbox สำหรับการจัดวางเนื้อหา */
+    align-items: center;
+    /* จัดแนวเนื้อหาให้อยู่ตรงกลางในแนวตั้ง */
+    justify-content: center;
+    /* จัดเนื้อหาให้อยู่ตรงกลางในแนวนอน */
+}
+
+/* กำหนดการแสดงผลของข้อความใน header */
+.header-img h1 {
+    color: white;
+    /* กำหนดสีตัวอักษรเป็นสีขาว */
+    z-index: 1;
+    /* ตั้งค่า z-index เพื่อให้ข้อความอยู่ด้านบน */
+}
+
+/* สร้างเลเยอร์ซ้อนทับ (overlay) บนภาพพื้นหลัง */
+.header-overlay {
+    position: absolute;
+    /* ตั้งค่าให้ตำแหน่ง overlay เป็น absolute */
+    top: 0;
+    /* วาง overlay ไว้ที่ด้านบน */
+    left: 0;
+    /* วาง overlay ไว้ที่ด้านซ้าย */
+    width: 100%;
+    /* ปรับขนาดความกว้างของ overlay ให้เต็มพื้นที่ */
+    height: 100%;
+    /* ปรับขนาดความสูงของ overlay ให้เต็มพื้นที่ */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* ใส่สีพื้นหลังของ overlay เป็นสีดำโปร่งแสง */
+    z-index: 0;
+    /* ตั้งค่า z-index ให้ต่ำกว่าเนื้อหาที่อยู่บนภาพ */
+}
+
+/* ปรับตำแหน่งของ content-card */
+.content-card {
+    /* ย้ายตำแหน่งของ content ขึ้นไป */
+    margin-top: -100px;
+}
