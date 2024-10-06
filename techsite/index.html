@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #F0F2F5;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white;
+        }
+
+        .header-img {
+            background-image: url('images/profile.gif');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-img h1 {
+            color: white;
+            z-index: 1;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .content-card {
+            margin-top: -100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">My Tech Site</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="blog.html">Blog Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="credit.html">Credit</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header with image and text -->
+    <div class="header-img">
+        <div class="header-overlay"></div>
+        <h1>ประวัติส่วนตัว</h1>
+    </div>
+
+    <div class="container">
+        <div class="card content-card p-5 shadow">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="images/profile1.jpg" class="img-fluid rounded mb-4">
+                    <img src="images/profile2.jpg" class="img-fluid rounded mb-4">
+                    <img src="images/profile3.jpg" class="img-fluid rounded mb-4">
+                </div>
+                <div class="col-md-8">
+                    <p><strong>ชื่อ-สกุล:</strong></p>
+                    <p><strong>รหัสนักศึกษา:</strong></p>
+                    <p><strong>ประวัติการศึกษา:</strong></p>
+                    <p><strong>งานอดิเรก:</strong></p>
+                    <p><strong>ที่อยู่:</strong></p>
+                    <p><strong>ผลงานที่เคยทำมา:</strong></p>
+                    <p><strong>ความสนใจและเป้าหมายในอาชีพ:</strong></p>
+                    <div class="w-100 text-center mb-2">
+                        <iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/GO17jczK2mk?si=39Rx5z8JmIB3V-eb"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5">
+        <p>&copy; 2024 My Tech Site</p>
+    </footer>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

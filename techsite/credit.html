@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #F0F2F5;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white;
+        }
+
+        .header-img {
+            background-image: url('images/profile.gif');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-img h1 {
+            color: white;
+            z-index: 1;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .content-card {
+            margin-top: -100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">My Tech Site</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="blog.html">Blog Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="credit.html">Credit</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header with image and text -->
+    <div class="header-img">
+        <div class="header-overlay"></div>
+        <h1>Credits</h1>
+    </div>
+
+    <div class="container mt-5">
+        <div class="card content-card p-5 shadow">
+            <h1>ซอฟต์แวร์ที่ใช้ในการพัฒนาเว็บไซต์</h1>
+            <ul>
+                <li><strong>HTML</strong> - สำหรับสร้างโครงสร้างพื้นฐานของเว็บไซต์</li>
+                <li><strong>CSS</strong> - สำหรับตกแต่งและจัดการสไตล์ของเว็บเพจ</li>
+                <li><strong>Bootstrap</strong> - ใช้ framework เพื่อช่วยในการสร้างเว็บที่ responsive</li>
+                <li><strong>YouTube Embed</strong> - สำหรับฝังวิดีโอ YouTube ลงในหน้าเว็บ</li>
+            </ul>
+            <div class="w-100 text-center mb-2">
+                <img src="images/HCJ.jpeg" class="img-fluid rounded w-50 mb-4">
+                <p>รูปจาก https://charantechnologies.com/html.html</p>
+            </div>
+            <h1>แหล่งอ้างอิง</h1>
+            <ul>
+                <li>
+                    <a href="https://www.springnews.co.th/digital-tech/gadget/853239"
+                        class="link-underline-dark">เปิดตัว
+                        Orion แว่นตา AR อัจฉริยะ จาก Meta คาดท้าชน Vision Pro ของ Apple</a>
+                </li>
+                <li>
+                    <a href="https://www.bangkokbiznews.com/tech/gadget/1146552"
+                        class="link-underline-dark">‘การ์ทเนอร์’
+                        มองเทรนด์ Gen AI กำหนดอนาคตดิจิทัลองค์กร</a>
+                </li>
+                <li>
+                    <a href="https://www.thairath.co.th/lifestyle/life/2804875" class="link-underline-dark">เริ่มแล้ว
+                        'การแพทย์จีโนมิกส์' เทคฯ ช่วยพยากรณ์ และป้องกันโรครายบุคคล เพื่อสุขภาพยั่งยืน</a>
+                </li>
+                <li><a href="https://news.trueid.net/detail/6zdoVrWXManj"
+                        class="link-underline-dark">นวัตกรรมหมวกเก็บความเย็น ช่วยผู้ป่วยมะเร็งลดผมร่วงจากการทำคีโม</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5">
+        <p>&copy; 2024 My Tech Site</p>
+    </footer>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

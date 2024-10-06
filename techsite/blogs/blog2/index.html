@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #F0F2F5;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white;
+        }
+
+        .header-img {
+            background-image: url('head.png');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-img h1 {
+            color: white;
+            z-index: 1;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .content-card {
+            margin-top: -100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">My Tech Site</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../index.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../blog.html">Blog Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../credit.html">Credit</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header with image and text -->
+    <div class="header-img">
+        <div class="header-overlay"></div>
+        <h1>นวัตกรรมหมวกเก็บความเย็น ช่วยผู้ป่วยมะเร็งลดผมร่วงจากการทำคีโม
+        </h1>
+    </div>
+
+    <div class="container">
+        <div class="card content-card p-5 shadow">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>นักศึกษาสาวชาวไอริช ออกแบบอุปกรณ์เก็บความเย็นบนหนังศีรษะแบบพกพา
+                        เพื่อช่วยผู้ป่วยมะเร็งลดการเกิดผมร่วง ซึ่งเป็นอาการข้างเคียงที่มักเกิดขึ้นกับการทำคีโม
+                        (Chemotherapy) หรือ การรักษาด้วยเคมีบำบัด
+                        โดยผลงานนี้คว้ารางวัลใหญ่จากเวทีประกวดการออกแบบนวัตกรรม เจมส์ ไดสัน อวอร์ด 2024 (James Dyson
+                        Award) ไปเป็นที่เรียบร้อยแล้ว</p>
+                    <p>สาวไอริชวัย 24 ปีคนนี้มีนามว่า โอลิเวีย ฮัมฟรีย์ส (Olivia Humphreys)
+                        เธอเป็นผู้ชนะจากเวทีการประกวดในรอบระดับประเทศ โดยเป็นตัวแทนของประเทศไอร์แลนด์
+                        กับการนำเสนอผลงานชื่อว่า อะธีน่า (Athena) ซึ่งเป็นต้นแบบของอุปกรณ์ทำความเย็นหนังศีรษะแบบพกพา
+                        ซึ่งได้แรงบันดาลใจมาจากแม่ของเธอที่ป่วยเป็นโรคมะเร็ง และต้องผ่านการรักษาด้วยคีโมเช่นกัน
+                        เธอเล่าว่าปกติแล้ว ในกระบวนการทำคีโม
+                        จะมีอุปกรณ์ที่ช่วยระบายความร้อนของหนังศีรษะของผู้ป่วยอยู่แล้ว โดยการลดอุณหภูมิของหนังศีรษะ
+                        จะช่วยลดการหลุดร่วงของเส้นผม ซึ่งเป็นผลข้างเคียงที่พบบ่อยของการรักษา
+                        แต่เธอต้องการทำให้อุปกรณ์นี้ ลดขนาดลงมาให้สามารถพกพาง่าย และมีราคาย่อมเยาขึ้น
+                        เพื่อให้ผู้ป่วยสามารถใช้อุปกรณ์นี้ได้เองจากที่บ้าน เธอจึงได้ออกแบบหมวกเก็บรักษาความเย็น
+                        ที่ภายในมีชุด เทอร์โมอิเล็กทริก (Thermoelectric) หรืออุปกรณ์ที่เปลี่ยนพลังงานความร้อน
+                        ให้กลายเป็นพลังงานไฟฟ้า หรือเปลี่ยนพลังงานไฟฟ้าให้เป็นพลังงานความร้อน มาใช้ส่งน้ำเย็น
+                        ให้ไหลเวียนรอบหนังศีรษะ</p>
+                    <div class="w-100 text-center mb-2">
+                        <img src="1.png" class="img-fluid rounded w-50">
+                        <p>รูปจาก https://news.trueid.net/detail/6zdoVrWXManj</p>
+                    </div>
+                    <p>ตัวอุปกรณ์ยังไม่ต้องใช้การเสียบปลั๊กตลอดเวลา เพราะใช้พลังงานจากแบตเตอรี่
+                        โดยตอนนี้ตัวต้นแบบสามารถทำงานได้นาน 3.5 ชั่วโมงต่อการชาร์จพลังงานเต็มที่หนึ่งครั้ง
+                        อีกทั้งมีน้ำหนักเบา สามารถพกพาได้ ขณะใช้งานผู้ป่วยก็สามารถลุกขึ้นเดินไปที่ต่าง ๆ ได้ตามต้องการ
+                        อย่างไรก็ตามตอนนี้ตัวอุปกรณ์ยังต้องผ่านการพัฒนาและทดสอบประสิทธิภาพการทำงานเพิ่มเติม
+                        แต่ผู้พัฒนาหวังว่าในอนาคต อุปกรณ์นี้จะถูกใช้งานในวงกว้าง
+                        และช่วยลดอาการผมร่วงให้ผู้ป่วยมะเร็งได้มากขึ้น </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5">
+        <p>&copy; 2024 My Tech Site</p>
+    </footer>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
